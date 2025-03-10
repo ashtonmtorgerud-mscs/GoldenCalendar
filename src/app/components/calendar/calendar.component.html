@@ -1,0 +1,16 @@
+<a routerLink="/" class="button absolute outline-red-500 text-white p-3 hover:bg-red-700 hover:font-bold rounded-lg select-none ">Back</a>
+
+
+<div class="container bg-black mx-auto h-screen text-white">
+    <div class="mx-auto text-center text-8xl w" style="height: calc(15%);">{{monthShort[today.getMonth()]}}  -  {{today.getFullYear()}}</div>
+    
+    
+    <div class="flex flex-wrap p-1" style="height: calc(85%);">
+        <div *ngFor="let i of GetDisplayMonth(); let index = index;" 
+        class="bg-white text-black my-0 flex-auto max-w-md flex-shrink-0 w-1/7 h-1/6 p-2 outline-solid outline-black hover:outline-5 hover:outline-blue-300 hover:z-99">
+                <p>{{(i)}} </p>
+        </div>
+    </div>
+      
+
+</div>

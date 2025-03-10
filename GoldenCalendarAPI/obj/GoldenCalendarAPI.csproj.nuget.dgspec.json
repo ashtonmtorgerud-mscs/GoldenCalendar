@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ashto\\Desktop\\Academia\\2749 Web Application Development\\ATORGERUD2749ANGULAR\\ashton-torgerud-angular\\GoldenCalendarAPI\\GoldenCalendarAPI.csproj": {}
+    "C:\\Users\\ashto\\Desktop\\Academia\\CapstoneProject\\GoldenCalendar\\GoldenCalendarAPI\\GoldenCalendarAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ashto\\Desktop\\Academia\\2749 Web Application Development\\ATORGERUD2749ANGULAR\\ashton-torgerud-angular\\GoldenCalendarAPI\\GoldenCalendarAPI.csproj": {
+    "C:\\Users\\ashto\\Desktop\\Academia\\CapstoneProject\\GoldenCalendar\\GoldenCalendarAPI\\GoldenCalendarAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ashto\\Desktop\\Academia\\2749 Web Application Development\\ATORGERUD2749ANGULAR\\ashton-torgerud-angular\\GoldenCalendarAPI\\GoldenCalendarAPI.csproj",
+        "projectUniqueName": "C:\\Users\\ashto\\Desktop\\Academia\\CapstoneProject\\GoldenCalendar\\GoldenCalendarAPI\\GoldenCalendarAPI.csproj",
         "projectName": "GoldenCalendarAPI",
-        "projectPath": "C:\\Users\\ashto\\Desktop\\Academia\\2749 Web Application Development\\ATORGERUD2749ANGULAR\\ashton-torgerud-angular\\GoldenCalendarAPI\\GoldenCalendarAPI.csproj",
+        "projectPath": "C:\\Users\\ashto\\Desktop\\Academia\\CapstoneProject\\GoldenCalendar\\GoldenCalendarAPI\\GoldenCalendarAPI.csproj",
         "packagesPath": "C:\\Users\\ashto\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ashto\\Desktop\\Academia\\2749 Web Application Development\\ATORGERUD2749ANGULAR\\ashton-torgerud-angular\\GoldenCalendarAPI\\obj\\",
+        "outputPath": "C:\\Users\\ashto\\Desktop\\Academia\\CapstoneProject\\GoldenCalendar\\GoldenCalendarAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ashto\\AppData\\Roaming\\NuGet\\NuGet.Config",
