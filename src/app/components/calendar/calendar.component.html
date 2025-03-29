@@ -1,14 +1,44 @@
 <a routerLink="/" class="button absolute outline-red-500 text-white p-3 hover:bg-red-700 hover:font-bold rounded-lg select-none ">Back</a>
 
 
-<div class="container bg-black mx-auto h-screen text-white">
-    <div class="mx-auto text-center text-8xl w" style="height: calc(15%);">{{monthShort[today.getMonth()]}}  -  {{today.getFullYear()}}</div>
-    
-    
-    <div class="flex flex-wrap p-1" style="height: calc(85%);">
-        <div *ngFor="let i of GetDisplayMonth(); let index = index;" 
-        class="bg-white text-black my-0 flex-auto max-w-md flex-shrink-0 w-1/7 h-1/6 p-2 outline-solid outline-black hover:outline-5 hover:outline-blue-300 hover:z-99">
-                <p>{{(i)}} </p>
+<div class="container bg-black mx-auto h-screen text-white select-none rounded">
+
+
+
+    <div class="width-full bg-yellow-300 rounded-lg border-8 border-yellow-500 px-5">
+        <div class="mx-auto text-center text-8xl font-bold textOutliner" style="height: calc(15%);">{{monthShort[today.getMonth()]}}  -  {{today.getFullYear()}}</div>
+    </div>
+        
+
+        <div class="w-full bg-gray-500 p-1 flex flex-wrap">
+                <div *ngFor="let day of weekShort;" class="flex-auto bg-yellow-200 w-1/7 text-center ">
+                        <div class="w-1/2 bg-yellow-500 text-white font-bold mx-auto rounded-lg">
+                                {{day}}
+                        </div>
+                </div>
+        </div>
+
+
+    <div class="flex flex-wrap p-1 " style="height: calc(85%);">
+        <div *ngFor="let i of GetLastMonthDays(); let index = index;" 
+        class="bg-gray-500 text-black my-0 flex-auto max-w-md flex-shrink-0 w-1/7 h-1/6 p-2 outline-solid outline-black hover:outline-5 hover:outline-blue-300 hover:z-99 hover:rounded-lg">
+                <p class="font-bold">{{(i)}} </p>
+                <p *ngIf="i == 5">Event</p>
+        </div>
+        <div *ngFor="let i of GetThisMonthDays(); let index = index;" routerLink="/day/{{i}}"
+        class="bg-yellow-100 border-yellow-500 border-7 text-black my-0 flex-auto max-w-md flex-shrink-0 w-1/7 h-1/6  outline-solid outline-black hover:outline-5 hover:outline-blue-300 hover:z-99 hover:rounded-lg">
+                
+                <div class="font-bold bg-yellow-500 pb-1">
+                       <!-- <div class="rounded-full bg-black w-7 h-7 text-center content-center"></div> -->
+                        <p class="rounded-full bg-white w-6 h-6 text-center">{{(i)}}</p>
+                       
+                </div>
+                <p *ngIf="i == 5">Event</p>
+        </div>
+        <div *ngFor="let i of GetNextMonthDays(); let index = index;" 
+        class="bg-gray-200 border-3 border-gray-500 text-black my-0 flex-auto max-w-md flex-shrink-0 w-1/7 h-1/6 p-2 outline-solid outline-black hover:outline-5 hover:outline-blue-300 hover:z-99 hover:rounded-lg">
+                <p class="font-bold">{{(i)}} </p>
+                <p *ngIf="i == 5">Event</p>
         </div>
     </div>
       

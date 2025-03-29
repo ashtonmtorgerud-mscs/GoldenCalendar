@@ -1,0 +1,36 @@
+:host{
+    display: block;
+    background: rgb(53,45,92);
+    background: radial-gradient(circle, rgba(53,45,92,1) 0%, rgba(0,0,0,1) 150%);
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+#topBar{
+    transform-style: preserve-3d;
+    transform-origin: center left;
+    transform: rotateX(20deg) rotateY(0deg) rotateZ(1deg);
+    animation: TopBarDropDown 0.5s ease-in-out forwards;
+}
+
+.orangebar{
+    box-shadow: 1vw 1vh darkorange;
+}
+
+.textOutliner {
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  }
+
+
+
+
+  @keyframes TopBarDropDown {
+    0% {
+        transform: rotateZ(-90deg);
+    } 100% {
+        transform: rotateZ(1deg);
+    }
+  }

@@ -9,6 +9,8 @@ import { first } from 'rxjs';
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.css'
 })
+
+
 export class CalendarComponent {
 
   today: Date = new Date();
@@ -17,38 +19,47 @@ export class CalendarComponent {
   
   weekShort: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
   monthShort: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
-  
-  daysInMonth(month : number, year : number): number{
-        return new Date(year, month, 0).getDate();
-  }
 
-  DaysArray: number[] = new Array(this.daysInMonth(this.today.getMonth(), this.today.getFullYear()));
+  firstOfMonth = new Date(this.today.getFullYear(), this.today.getMonth(), 1);
+  lastOfMonth = new Date(this.today.getFullYear(), this.today.getMonth()+1, 0);
+  firstOfNextMonth = new Date(this.today.getFullYear(), this.today.getMonth()+1, 1);
+  lastOfLastMonth = new Date(this.today.getFullYear(), this.today.getMonth(), 0);
 
-  GetDisplayMonth(): number[]{
+
+  GetLastMonthDays(): number[] {
+    let lastMonth: number[] = [];
     
-    let returnArray = [];
-    let firstOfMonth = new Date(this.today.getFullYear(), this.today.getMonth(), 1);
-    let lastOfMonth = new Date(this.today.getFullYear(), this.today.getMonth()+1, 0);
-    for ( let i = firstOfMonth.getDay(); i > 0; i--){
-      returnArray.push(firstOfMonth.getDate()-i);
+    for ( let i = 0; i < this.firstOfMonth.getDay(); i++){
+      lastMonth.push(this.lastOfLastMonth.getDate()-i);
+      
     }
-
-
-
-    returnArray = returnArray.concat(this.DaysArray);
-
-    let offset = 1;
-    for ( let i = returnArray.length; i < 42; i++){
-      returnArray.push(lastOfMonth.getDate()+offset);
-      offset++;
-
-    }
-
-
-    // console.log(returnArray);
-
-    return returnArray;
+    lastMonth.reverse();
+    return lastMonth;
   }
+
+  GetThisMonthDays(): number[] {
+    let thisMonth: number[] = [];
+    
+    for ( let i = 0; i < new Date(this.today.getFullYear(), this.today.getMonth()+1, 0).getDate(); i++){
+      thisMonth.push(1+i);
+      
+    }
+
+    return thisMonth;
+  }
+
+
+  GetNextMonthDays(): number[] { 
+    
+    let nextMonth: number[] = [];
+    let index: number = this.lastOfMonth.getDate();
+    for (let i = this.lastOfMonth.getDate(); i <= 35; i++){
+      nextMonth.push(i-this.lastOfMonth.getDate()+1);
+    }
+
+    return nextMonth;
+    // return this.GetLastMonthDays().concat(this.GetThisMonthDays()) 
+  };
 
   
 }
