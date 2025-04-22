@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { first } from 'rxjs';
 import { Task, TaskService } from '../task.service';
 
+
 @Component({
   selector: 'app-calendar',
   imports: [RouterLink, NgIf, NgFor],
@@ -13,6 +14,8 @@ import { Task, TaskService } from '../task.service';
 
 
 export class CalendarComponent {
+
+  constructor(private taskService: TaskService) { }
 
   today: Date = new Date();
   monthLength: number = this.today.getMonth();
@@ -28,7 +31,6 @@ export class CalendarComponent {
   lastOfLastMonth = new Date(this.today.getFullYear(), this.today.getMonth(), 0);
   todayHighlighter = "bg-white";
   private daysCount = 35;
-  prefColor = TaskService.prefColor;
 
   GoToLastMonth(): void {
     this.today = new Date (this.today.getFullYear(), this.today.getMonth()-1, this.today.getDate());
@@ -83,7 +85,7 @@ export class CalendarComponent {
     let checkDate = new Date (this.today.getFullYear(), this.today.getMonth(), iDay);
     let todaysEvents: string[] = [];
 
-    TaskService.getTasksOfDate(checkDate).forEach(task => {
+    this.taskService.getTasksOfDate(checkDate).forEach(task => {
       todaysEvents.push(task.title);
     });
 

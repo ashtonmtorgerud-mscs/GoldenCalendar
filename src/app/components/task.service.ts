@@ -2,14 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
-
-
-class barrier{
-  //I genuinely have no clue why this empty class sitting here fixes the code, but it does so...
-}
 
 export class Task{
   constructor(
@@ -20,9 +12,13 @@ export class Task{
   title = '';
   description = '';
   dueDate = new Date();
-
-  completed = false;
+  isCompleted = false;
 }
+
+
+@Injectable({
+  providedIn: 'root'
+})
 
 export class TaskService {
   constructor ( private http: HttpClient ) {  }
@@ -30,14 +26,14 @@ export class TaskService {
 
   public static prefColor = 'blue';
 
-  static tasks:Task[] = [new Task('Graduation', 'The day I graduate', new Date(2025, 4, 16)), new Task('taskTwo', 'taskOneDesc', new Date())];
+  tasks:Task[] = [new Task('Graduation', 'The day I graduate', new Date(2025, 4, 16)), new Task('taskTwo', 'taskOneDesc', new Date())];
 
-  static getTasksOfDate(iDate:Date): Task[]{
+  getTasksOfDate(iDate:Date): Task[]{
     
     let taskList: Task[] = [];
 
 
-    TaskService.tasks.forEach(task => {
+    this.tasks.forEach(task => {
       try {
         if (task.dueDate.toDateString() == iDate.toDateString()){
           taskList.push(task);
@@ -53,6 +49,8 @@ export class TaskService {
   }
 
 
+
+
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>('http://localhost:5254/api/tasks').pipe(
       map(data => data.map(t => new Task(t.title, t.description, new Date(t.dueDate))))
@@ -60,6 +58,11 @@ export class TaskService {
   }
   addTask(task: Task): Observable<Task> {
     return this.http.post<Task>('http://localhost:5254/api/tasks', task);
+  }
+  getTasksOfDatenew(iDate: Date): Observable<Task[]> {
+    return this.http.get<Task[]>(`http://localhost:5254/api/tasks/`).pipe(
+      map(data => data.filter(task => new Date(task.dueDate).toDateString() === iDate.toDateString()).map(t => new Task(t.title, t.description, new Date(t.dueDate))))
+    );
   }
   updateTask(task: Task): Observable<Task> {
     return this.http.put<Task>(`http://localhost:5254/api/tasks/${task.title}`, task);

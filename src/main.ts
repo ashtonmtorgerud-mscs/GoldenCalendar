@@ -1,8 +1,12 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
-import { CalendarGlanceComponent } from './app/components/calendar-glance/calendar-glance.component';
+import { provideHttpClient } from '@angular/common/http'; // ✅ This is what you actually need! -GPT4 Assisted
 
-
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  ...appConfig,
+  providers: [
+    ...(appConfig.providers || []),
+    provideHttpClient() // ✅ Register HttpClient for standalone -GPT4 Assisted
+  ]
+});

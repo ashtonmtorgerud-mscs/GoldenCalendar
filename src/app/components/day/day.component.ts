@@ -1,12 +1,10 @@
 import { NgFor, NgIf, } from '@angular/common';
-import { Component, NgModule, numberAttribute } from '@angular/core';
+import { Component, Input, NgModule, numberAttribute } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import e from 'express';
-import { title } from 'node:process';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TaskService, Task } from '../task.service';
-import { take } from 'rxjs';
+
 
 @Component({
   selector: 'app-day',
@@ -16,25 +14,25 @@ import { take } from 'rxjs';
 })
 
 export class DayComponent {
-[x: string]: any;
 
   constructor( private route: ActivatedRoute, private taskService: TaskService ){}
-
+// , private taskService: TaskService
 
 
   //Tasks Stuff
+  
   myTasks: Task[] = [];
   newTaskName = '';
   newTaskDesc = '';
   newTaskDate = new Date();
   selectedTask: Task = new Task("", "", new Date);
 
-  ///Class Names
+  // ///Class Names
   modalVisibility = 'hidden';
   createTaskModalPlate = 'hidden';
   deleteTaskModalPlate = 'hiddeen';
 
-  //Dates Stuff
+  // //Dates Stuff
   dayParam:number = 0;
   monthParam:number = 0;
   yearParam:number = 0;
@@ -44,6 +42,7 @@ export class DayComponent {
 
 
   ngOnInit(){
+    
     this.route.params.subscribe( params => {
       let todayBackup = new Date();
 
@@ -70,12 +69,11 @@ export class DayComponent {
 
 
       this.dayDate = new Date(this.yearParam, this.monthParam, this.dayParam);
-      this.myTasks = TaskService.getTasksOfDate(this.dayDate);
+      this.taskService.getTasksOfDate(this.dayDate);
       this.selectedTask = this.myTasks[0];
+      // this.newTaskDate = new Date(this.yearParam, this.monthParam, this.dayParam);
+      // this.newTaskDate.setHours(0, 0, 0, 0);
     });
-
-    
-
   }
 
   GetMonthEnder(day:number): string{
@@ -88,25 +86,20 @@ export class DayComponent {
     }
     
   }
-  
-  AddTask(): void {
-    let newTask = new Task('TaskClone', 'This is an auto Cloned Task', new Date(2025, 2, 0));
-    TaskService.tasks.push(newTask);
-    this.myTasks = TaskService.getTasksOfDate(this.dayDate);
-
-  }
 
 
-  AddNamedTask(iTitle:string): void {
-    this.newTaskDate = new Date (this.newTaskDate);
-    this.newTaskDate.setDate(this.newTaskDate.getDate() + 1);
+  AddNamedTask(): void {
+    this.newTaskDate = new Date (this.dayDate);
     this.newTaskDate.setHours(0, 0, 0, 0);
-    
+
     let newTask = new Task(this.newTaskName, this.newTaskDesc, this.newTaskDate);
     console.log(newTask);
-    TaskService.tasks.push(newTask);
-    this.myTasks = TaskService.getTasksOfDate(this.dayDate);
-
+    this.taskService.tasks.push(newTask);
+    this.myTasks = this.taskService.getTasksOfDate(this.dayDate);
+    this.selectedTask = this.myTasks[0];
+    this.newTaskName = '';
+    this.newTaskDesc = '';
+    
   }
 
 
@@ -128,19 +121,24 @@ export class DayComponent {
 
   deleteTask(iTask:Task){
     let tempTasks: Task[] = [];
-    TaskService.tasks.forEach(task => {
+    this.taskService.tasks.forEach(task => {
       if (iTask != task){
         tempTasks.push(task);
       }
     });
-    TaskService.tasks = tempTasks;
-    if (TaskService.getTasksOfDate(this.dayDate).length > 0){
+    this.taskService.tasks = tempTasks;
+    if (this.taskService.getTasksOfDate(this.dayDate).length > 0){
       this.selectedTask = this.myTasks[0];
     } else {
       this.selectedTask = new Task('No Tasks', '', new Date());
     }
-    this.myTasks = TaskService.getTasksOfDate(this.dayDate);
+    this.myTasks = this.taskService.getTasksOfDate(this.dayDate);
   }
+
+
+  
+
+  
 
 }
 

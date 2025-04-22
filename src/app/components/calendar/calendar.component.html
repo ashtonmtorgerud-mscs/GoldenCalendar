@@ -5,11 +5,11 @@
 
 
         
-        <div class="width-full bg--300 rounded-lg border-8 border-{{prefColor}}-500 px-5 flex flex-row ">
+        <div class="width-full bg--300 rounded-lg border-8 border-yellow-500 px-5 flex flex-row ">
                 <div class="py-5">
                         <div class="float-left bg-black py-4 px-7 hoverPop rounded-full text-5xl" (click)="GoToLastMonth()"> &#11164; </div>
                 </div>
-                <div class="mx-auto text-center text-8xl font-bold textOutliner bg-{{prefColor}}-500 m-3 p-2 w-4/5 rounded-4xl" style="height: calc(15%);">{{monthLong[today.getMonth()]}}  -  {{today.getFullYear()}}</div>
+                <div class="mx-auto text-center text-8xl font-bold textOutliner bg-yellow-500 m-3 p-2 w-4/5 rounded-4xl" style="height: calc(15%);">{{monthLong[today.getMonth()]}}  -  {{today.getFullYear()}}</div>
                 <div class="py-5">
                         <div class="float-left bg-black py-4 px-7 hoverPop rounded-full text-5xl" (click)="GoToNextMonth()"> &#11166; </div>
                 </div>
@@ -17,8 +17,8 @@
 
 
         <div class="w-full  p-1 flex flex-wrap">
-                <div *ngFor="let day of weekShort;" class="flex-auto bg-{{prefColor}}-200 w-1/7 text-center ">
-                        <div class="w-1/2 bg-{{prefColor}}-500 text-white font-bold mx-auto rounded-lg">
+                <div *ngFor="let day of weekShort;" class="flex-auto bg-yellow-200 w-1/7 text-center ">
+                        <div class="w-1/2 bg-yellow-500 text-white font-bold mx-auto rounded-lg">
                                 {{day}}
                         </div>
                 </div>
@@ -34,9 +34,9 @@
                 <p *ngFor="let event of GetDayEvents(i)">{{event}}</p>
         </div>
         <div *ngFor="let i of GetThisMonthDays(); let index = index;" routerLink="/day/{{today.getFullYear()}}/{{today.getMonth()}}/{{i}}"
-        class="rounded-lg bg-{{prefColor}}-100 border-{{prefColor}}-500 border-7 text-black my-0 flex-auto max-w-md flex-shrink-0 w-1/8 outline-solid outline-black hover:outline-5 hover:outline-blue-300 hover:z-99 hover:rounded-lg hoverPop">
+        class="rounded-lg bg-yellow-100 border-yellow-500 border-7 text-black my-0 flex-auto max-w-md flex-shrink-0 w-1/8 outline-solid outline-black hover:outline-5 hover:outline-blue-300 hover:z-99 hover:rounded-lg hoverPop">
                 
-                <div class="font-bold bg-{{prefColor}}-500 pb-1">
+                <div class="font-bold bg-yellow-500 pb-1">
                         <p class="rounded-full bg-white w-7 h-7 text-center">{{(i)}}</p>
                 </div>
                 <p *ngFor="let event of GetDayEvents(i)" class="px-1 font-bold">•{{event}}</p>
