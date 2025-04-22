@@ -1,3 +1,4 @@
+import { NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Injectable } from '@angular/core';
 import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
@@ -9,7 +10,7 @@ import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-calendar-glance',
-  imports: [RouterLink],
+  imports: [RouterLink, NgFor, NgIf],
   templateUrl: './calendar-glance.component.html',
   styleUrl: './calendar-glance.component.css'
 })
@@ -21,10 +22,11 @@ export class CalendarGlanceComponent {
   // weatherAPIURL = 'https://api.open-meteo.com/v1/forecast?latitude=43.6738&longitude=-92.0837&current_weather=true'
   weatherAPIURL = 'https://api.open-meteo.com/v1/forecast?latitude=43.6738&longitude=-92.0837&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=America/Chicago';
   
-  
-  
-  weatherIcons: string[] = ['','','','','','',''];
+  displayDays = [0, 1, 2, 3, 4, 5 ];
+  todaysTemperature = ["loading...","loading...","loading...","loading...","loading...","loading..."];
+  weatherIcons: string[] = ['unknown.gif','unknown.gif','unknown.gif','unknown.gif','unknown.gif','unknown.gif','unknown.gif'];
   weatherAPIObject: object = ({});
+
 
   // constructor(private http: HttpClient) { }
 
@@ -40,25 +42,42 @@ export class CalendarGlanceComponent {
       let data = await response.json(); // Parse the JSON response
       console.log(data.daily.weathercode); // Now, you can log the actual data
       this.weatherAPIObject = data;
-
+      
+      
       for (let i = 0; i < this.weatherIcons.length; i++){
+        this.todaysTemperature[i] = Math.round((data.daily.temperature_2m_max[i]*1.8) + 32).toString();
         try{
           switch(data.daily.weathercode[i]){
 
-            case 0: this.weatherIcons[i] = '☀️'; break;
-            case 1: this.weatherIcons[i] = '☀️'; break;
-            case 2: this.weatherIcons[i] = '⛅'; break;
-            case 3: this.weatherIcons[i] = '☁️'; break;
-            case 51: this.weatherIcons[i] = '💧'; break;
-            case 53: this.weatherIcons[i] = '💧'; break;
-            case 55: this.weatherIcons[i] = '💧'; break;
-            case 61: this.weatherIcons[i] = '🌧️'; break;
-            case 63: this.weatherIcons[i] = '🌧️'; break;
-            case 65: this.weatherIcons[i] = '🌧️'; break;
-            case 71: this.weatherIcons[i] = '🌨️'; break;
-            case 73: this.weatherIcons[i] = '🌨️'; break;
-            case 75: this.weatherIcons[i] = '🌨️'; break;
-            default: this.weatherIcons[i] = '?';
+            // case 0: this.weatherIcons[i] = '☀️'; break;
+            // case 1: this.weatherIcons[i] = '☀️'; break;
+            // case 2: this.weatherIcons[i] = '⛅'; break;
+            // case 3: this.weatherIcons[i] = '☁️'; break;
+            // case 51: this.weatherIcons[i] = '💧'; break;
+            // case 53: this.weatherIcons[i] = '💧'; break;
+            // case 55: this.weatherIcons[i] = '💧'; break;
+            // case 61: this.weatherIcons[i] = '🌧️'; break;
+            // case 63: this.weatherIcons[i] = '🌧️'; break;
+            // case 65: this.weatherIcons[i] = '🌧️'; break;
+            // case 71: this.weatherIcons[i] = '🌨️'; break;
+            // case 73: this.weatherIcons[i] = '🌨️'; break;
+            // case 75: this.weatherIcons[i] = '🌨️'; break;
+            // default: this.weatherIcons[i] = '?';
+            case 0: this.weatherIcons[i] = 'Clear.png'; break;
+            case 1: this.weatherIcons[i] = 'PartlyCloudy.png'; break;
+            case 2: this.weatherIcons[i] = 'OverCast.png'; break;
+            case 3: this.weatherIcons[i] = 'Cloudy.png'; break;
+            case 51: this.weatherIcons[i] = 'RainLight.png'; break;
+            case 53: this.weatherIcons[i] = 'RainLight.png'; break;
+            case 55: this.weatherIcons[i] = 'RainLight.png'; break;
+            case 61: this.weatherIcons[i] = 'RainHeavy.png'; break;
+            case 63: this.weatherIcons[i] = 'RainHeavy.png'; break;
+            case 65: this.weatherIcons[i] = 'RainHeavy.png'; break;
+            case 71: this.weatherIcons[i] = 'Snow.png'; break;
+            case 73: this.weatherIcons[i] = 'Snow.png'; break;
+            case 75: this.weatherIcons[i] = 'Snow.png'; break;
+            case 80: this.weatherIcons[i] = 'RainHeavy.png'; break;
+            default: this.weatherIcons[i] = 'Unknown.gif'; break;
           }
         } catch(error){
   
@@ -92,5 +111,16 @@ export class CalendarGlanceComponent {
     }
     return this.week[input];
   }
+
+  getDayCalc(dayModifier: number){
+    let newDate = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate() + dayModifier);
+    return newDate.getDate();
+  }
+
+  getColumnStyles(input:number){
+    if (input == 0) { return "bg-yellow-300"; }
+    else { return "text-white"; }
+  }
+
 
 }

@@ -1,2 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+
+.hoverPop:hover{
+    transform: scale(1.05);
+    transition: all 0.1s ease-in-out;
+}
+
+
+.pixel-art {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+  

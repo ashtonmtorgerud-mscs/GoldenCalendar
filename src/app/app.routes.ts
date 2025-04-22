@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { HomeComponent } from './components/home/home.component';
 import { DayComponent } from './components/day/day.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
 
 
 export const routes: Routes = [
@@ -18,6 +19,10 @@ export const routes: Routes = [
     {
         path: 'calendar',
         component: CalendarComponent,
+    },
+    {
+        path: 'contacts',
+        component: ContactsComponent,
     },
     { path: 'day/:year/:month/:day', component: DayComponent, },
     { path: 'day/:month/:day', component: DayComponent, },

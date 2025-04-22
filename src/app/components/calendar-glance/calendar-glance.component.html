@@ -1,6 +1,7 @@
+<!-- <a routerLink="/" class="button absolute outline-red-500 text-white p-3 hover:bg-red-700 hover:font-bold rounded-lg select-none ">Back</a> -->
+<a routerLink="/"
+    class="button absolute outline-red-500 text-white p-3 hover:bg-red-700 hover:font-bold rounded-lg select-none">Back</a>
 
-
-<a routerLink="/" class="button absolute outline-red-500 text-white p-3 hover:bg-red-700 hover:font-bold rounded-lg select-none ">Back</a>
 
 
 <div class="hidden sm:block bg-black h-screen w-screen select-none overflow-hidden">
@@ -8,76 +9,27 @@
         <div class="h-screen flex-1 pt-5 text-white">
             <h3 class="mx-auto text-center text-4xl mt-5">{{getDayOfWeek(today.getDay()-1)}}</h3>
             <h1 class="mx-auto text-center text-8xl italic">{{dayOfTheMonth-1}}</h1>
-            <div class="aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200">
-                <p class="text-center align-bottom m-auto">
-                ☁️
-                </p>
+            <div
+                class="aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200">
+                <img class="pixel-art" src="/icons/{{weatherIcons[0]}}" alt="">
             </div>
         </div>
 
-        <div class="bg-yellow-300 h-screen flex-1 pt-5">
-            <h3 class="mx-auto text-center text-4xl mt-5">{{getDayOfWeek(today.getDay())}}</h3>
-            <h1 class="mx-auto text-center text-8xl italic">{{dayOfTheMonth}} </h1>
-            <div class="aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200 min-w-[100px] min-h-[100px]">
-                <p class="text-center align-bottom m-auto">
-                <!-- ☂️ --> {{this.weatherIcons[0]}}
-                </p>
+        <div *ngFor="let i of displayDays" class="{{getColumnStyles(i)}} h-screen flex-1 pt-5">
+            <h3 class="mx-auto text-center text-4xl mt-5">{{getDayOfWeek(today.getDay()+i)}}</h3>
+            <h1 class="mx-auto text-center text-8xl italic">{{getDayCalc(i)}} </h1>
+            <div routerLink="/day/{{getDayCalc(i)}}"
+                class="hoverPop aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200 min-w-[100px] min-h-[100px]">
+                <img class="pixel-art" src="/icons/{{weatherIcons[i]}}" alt="">
             </div>
-            <div class="text-center text-9xl font-bold rotate-30 scale-200 my-5 py-5">{{today.getMonth()+1}}</div>
-            <div class="text-center text-7xl font-bold py-5">{{today.getFullYear()}}</div>
-
-        </div>
-
-        <div class="h-screen flex-1 pt-5 text-white">
-            <h3 class="mx-auto text-center text-4xl mt-5 ">{{getDayOfWeek(today.getDay()+1)}}</h3>
-            <h1 class="mx-auto text-center text-8xl italic">{{dayOfTheMonth+1}}</h1>
-            <div class="aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200">
-                <p class="text-center align-bottom m-auto">
-                    {{this.weatherIcons[1]}}
-                </p>
+            <div class="text-center text-7xl font-bold py-2">{{[todaysTemperature[i]]}}°</div>
+            <div class="" *ngIf="i == 0">
+                <div class="text-center text-9xl font-bold rotate-30 scale-200 my-5 py-5">{{today.getMonth()+1}}</div>
+                <div class="text-center text-7xl font-bold py-5">{{today.getFullYear()}}</div>
             </div>
         </div>
+
 
         
-        <div class="h-screen flex-1 pt-5 text-white">
-            <h3 class="mx-auto text-center text-4xl mt-5 ">{{getDayOfWeek(today.getDay()+2)}}</h3>
-            <h1 class="mx-auto text-center text-8xl italic">{{dayOfTheMonth+2}}</h1>
-            <div class="aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200">
-                <p class="text-center align-bottom m-auto">
-                    {{this.weatherIcons[2]}}
-                </p>
-            </div>
-        </div>
-
-        <div class="hidden sm:block h-120 flex-1 pt-5 text-white">
-            <h3 class="mx-auto text-center text-4xl mt-5 ">{{getDayOfWeek(today.getDay()+3)}}</h3>
-            <h1 class="mx-auto text-center text-8xl italic">{{dayOfTheMonth+3}}</h1>
-            <div class="aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200 min-w-[100px] min-h-[100px]">
-                <p class="text-center align-bottom m-auto">
-                    {{this.weatherIcons[3]}}
-                </p>
-            </div>
-        </div>
-
-        <div class="hidden md:block h-screen flex-1 pt-5 text-white">
-            <h3 class="mx-auto text-center text-4xl mt-5 ">{{getDayOfWeek(today.getDay()+4)}}</h3>
-            <h1 class="mx-auto text-center text-8xl italic">{{dayOfTheMonth+4}}</h1>
-            <div class="aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200">
-                <p class="text-center align-bottom m-auto">
-                    {{this.weatherIcons[4]}}
-                </p>
-            </div>
-        </div>
-
-        <div class="hidden md:block h-screen flex-1 pt-5 text-white">
-            <h3 class=" mx-auto text-center text-4xl mt-5 ">{{getDayOfWeek(today.getDay()+5)}}</h3>
-            <h1 class="mx-auto text-center text-8xl italic">{{dayOfTheMonth+5}}</h1>
-            <div class="aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200">
-                <p class="text-center align-bottom m-auto">
-                    {{this.weatherIcons[5]}}
-                </p>
-            </div>
-        </div>
-      </div>
+    </div>
 </div>
-  
