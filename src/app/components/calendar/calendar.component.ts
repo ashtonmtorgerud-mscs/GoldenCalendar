@@ -1,4 +1,4 @@
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { first } from 'rxjs';
@@ -7,7 +7,7 @@ import { Task, TaskService } from '../task.service';
 
 @Component({
   selector: 'app-calendar',
-  imports: [RouterLink, NgIf, NgFor],
+  imports: [RouterLink, NgIf, NgFor, NgClass],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.css'
 })
@@ -21,6 +21,8 @@ export class CalendarComponent {
   monthLength: number = this.today.getMonth();
   numberOfDivs: number = 5;
   
+  monthTasks: Task[] = [];
+
   weekShort: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
   monthShort: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
   monthLong: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
@@ -32,14 +34,36 @@ export class CalendarComponent {
   todayHighlighter = "bg-white";
   private daysCount = 35;
 
+  ngOnInit() {
+
+    this.loadTasks();
+  }
+
+
+  loadTasks(): void {
+    this.taskService.getTasksOfMonth(this.today).subscribe({
+      next: (tasks: Task[]) => {
+        this.monthTasks = tasks;
+      },
+      error: (err) => {
+        console.error('💥 Error fetching tasks:', err);
+      }
+    });
+  }
+
+
+
+
   GoToLastMonth(): void {
     this.today = new Date (this.today.getFullYear(), this.today.getMonth()-1, this.today.getDate());
     this.updateDayOutline();
+    this.loadTasks();
   }
 
   GoToNextMonth(): void {
     this.today = new Date (this.today.getFullYear(), this.today.getMonth()+1, this.today.getDate());
     this.updateDayOutline();
+    this.loadTasks();
   }
 
 
@@ -76,22 +100,21 @@ export class CalendarComponent {
     for (let i = index; i < this.daysCount; i++){
       nextMonth.push(i-index+1);
     }
-
+    
     return nextMonth;
   };
 
-  GetDayEvents(iDay:number): string[]{
-    
-    let checkDate = new Date (this.today.getFullYear(), this.today.getMonth(), iDay);
-    let todaysEvents: string[] = [];
-
-    this.taskService.getTasksOfDate(checkDate).forEach(task => {
-      todaysEvents.push(task.title);
-    });
-
-    return todaysEvents;
+  GetDayEvents(iDay: number): string[] {
+    let checkDate = new Date(this.today.getFullYear(), this.today.getMonth(), iDay);
+    let dayTasks = this.monthTasks.filter(task => task.dueDate.toDateString() === checkDate.toDateString());
+    let taskTitles: string[] = dayTasks.map(task => task.title);
+    if (taskTitles.length > 3){
+      let moreTasks = taskTitles.length-2;
+      taskTitles.length = 2;
+      taskTitles.push("+ " + moreTasks + " more...");
+    }
+    return taskTitles;
   }
-
 
   updateDayOutline(): void {
     let currentDay = new Date();

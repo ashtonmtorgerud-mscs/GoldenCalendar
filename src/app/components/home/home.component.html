@@ -1,23 +1,36 @@
-<div class="container mx-auto pt-5">
+<div class="container mx-auto pt-5 text-center gap-3">
+    <h1 class="text-7xl font-bold text-center mb-8 float-element">
+        <span class="hoverPop">Welcome </span>
+        <span>to </span> 
+        <span>Golden </span>
+        <span>Calendar </span>
+    </h1>
 
+    <div class="grid grid-cols-2 gap-4" routerLink="/glance">
+        <div class="hoverPop NeonBG p-4 rounded-3xl">
+            <div class="w-full bg-blue-950 h-48 text-center rounded-3xl flex items-center justify-center">
+                <p class="rounded-lg text-white font-bold text-7xl">Glance</p>
+            </div>
+        </div>
 
+        <div class="hoverPop NeonBG p-4 rounded-3xl" routerLink="/calendar">
+            <div class="w-full bg-blue-950 h-48 text-center rounded-3xl flex items-center justify-center">
+                <p  class="rounded-lg text-white font-bold text-7xl">Calendar</p>
+            </div>
+        </div>
 
+        <div class="hoverPop NeonBG p-4 rounded-3xl" routerLink="/contacts">
+            <div class="w-full bg-blue-950 h-48 text-center rounded-3xl flex items-center justify-center">
+                <p  class="rounded-lg text-white font-bold text-7xl">Contacts</p>
+            </div>
+        </div>
 
-<h1 class="text-3xl font-bold text-center">Welcome to Golden Calendar </h1>
+        <div class="hoverPop NeonBG p-4 rounded-3xl" routerLink="/settings">
+            <div class="w-full bg-blue-950 h-48 text-center rounded-3xl flex items-center justify-center">
+                <p routerLink="/settings" class="rounded-lg text-white font-bold text-7xl">Settings</p>
+            </div>
+        </div>
+    </div>
 
-
-<div class="float-left rotate-5">
-    <a routerLink="/glance" class="button rounded-lg bg-blue-300 text-white p-5">Glance</a>
-</div>
-<div class="float-left">
-    <a routerLink="/calendar" class="button rounded-lg bg-blue-300 text-white p-5">Calendar</a>
-</div>
-
-<div class="float-left">
-<a routerLink="/contacts" class="button rounded-lg bg-blue-300 text-white p-5">Social</a>
-</div>
-
-<!-- <a routerLink="/" class="button rounded-lg bg-blue-300 text-white p-5">Calendar</a> -->
-<!-- <a routerLink="/" class="button outline-solid outline-red-500 text-white p-3 hover:bg-red-700 hover:font-bold rounded-lg select-none ">Back</a> -->
-
+    <p class="text-white text-left">ver 0.73</p>
 </div>

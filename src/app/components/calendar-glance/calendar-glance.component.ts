@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Injectable } from '@angular/core';
 import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-calendar-glance',
-  imports: [RouterLink, NgFor, NgIf],
+  imports: [RouterLink, NgFor, NgIf, NgClass],
   templateUrl: './calendar-glance.component.html',
   styleUrl: './calendar-glance.component.css'
 })
@@ -118,7 +118,8 @@ export class CalendarGlanceComponent {
   }
 
   getColumnStyles(input:number){
-    if (input == 0) { return "bg-yellow-300"; }
+    // if (input == 0) { return "bg-yellow-300"; }
+    if (input == 0) { return "bg-blue-300"; }
     else { return "text-white"; }
   }
 

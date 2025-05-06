@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GoldenCalendarAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b76fa1b512915210f4a5b4ded083724ad70fb0c9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0450d34ad60d82a13cb6c16a0f80633891a2b518")]
 [assembly: System.Reflection.AssemblyProductAttribute("GoldenCalendarAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GoldenCalendarAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

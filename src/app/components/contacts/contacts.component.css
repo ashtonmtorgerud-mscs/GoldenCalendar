@@ -1,0 +1,29 @@
+.hue-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red);
+    height: 16px;
+    border-radius: 16px;
+  }
+
+  .hue-slider::-moz-range-track {
+    background: linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red);
+    height: 16px;
+    border-radius: 16px;
+  }
+
+  .brightness-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, black, white);
+    height: 16px;
+    border-radius: 16px;
+  }
+
+  .saturation-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, white, red);
+    height: 16px;
+    border-radius: 16px;
+  }
+  
+  .transform-slider::-webkit-slider-runnable-track{
+    background: white;
+    height: 16px;
+    border-radius: 16px;
+  }

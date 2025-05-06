@@ -6,8 +6,8 @@
 
 <div class="hidden sm:block bg-black h-screen w-screen select-none overflow-hidden">
     <div class="flex space-x-4 mx-5">
-        <div class="h-screen flex-1 pt-5 text-white">
-            <h3 class="mx-auto text-center text-4xl mt-5">{{getDayOfWeek(today.getDay()-1)}}</h3>
+        <div class="h-screen flex-1 pt-5 text-white hidden lg:block">
+            <h3 class="mx-auto text-center text-4xl mt-5 ">{{getDayOfWeek(today.getDay()-1)}}</h3>
             <h1 class="mx-auto text-center text-8xl italic">{{dayOfTheMonth-1}}</h1>
             <div
                 class="aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200">
@@ -19,8 +19,8 @@
             <h3 class="mx-auto text-center text-4xl mt-5">{{getDayOfWeek(today.getDay()+i)}}</h3>
             <h1 class="mx-auto text-center text-8xl italic">{{getDayCalc(i)}} </h1>
             <div routerLink="/day/{{getDayCalc(i)}}"
-                class="hoverPop aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200 min-w-[100px] min-h-[100px]">
-                <img class="pixel-art" src="/icons/{{weatherIcons[i]}}" alt="">
+                class="hoverPop aspect-square bg-gray-500 mx-3 rounded-lg mt-5 text-9xl flex hover:outline-solid outline-blue-200">
+                <img class="pixel-art rounded-lg" src="/icons/{{weatherIcons[i]}}" alt="">
             </div>
             <div class="text-center text-7xl font-bold py-2">{{[todaysTemperature[i]]}}°</div>
             <div class="" *ngIf="i == 0">
@@ -31,5 +31,22 @@
 
 
         
+    </div>
+</div>
+
+<div class="block sm:hidden bg-black h-screen w-screen select-none overflow-hidden">
+    <div class="grid grid-rows-3 gap-4">
+        <div class="flex justify-between items-center">
+            <div class="text-white text-4xl font-bold text-center mx-auto">{{today.getMonth()+1}}/{{today.getFullYear()}}</div>
+        </div>
+        <div *ngFor="let i of displayDays.slice(0, displayDays.length - 2)" 
+             class="flex justify-between items-center text-white px-3" routerLink="/day/{{getDayCalc(i)}}"
+             [ngClass]="{'bg-blue-300': i === 0, 'text-black': i === 0}">
+            <div class="text-4xl" [ngClass]="{'text-black': i === 0}">{{getDayOfWeek(today.getDay()+i)}}</div>
+            <div class="aspect-square bg-gray-500 rounded-lg flex items-center justify-center w-32 h-32 p-2">
+                <img class="pixel-art w-full rounded-lg" src="/icons/{{weatherIcons[i]}}" alt="">
+            </div>
+            <div class="text-4xl font-bold">{{[todaysTemperature[i]]}}°</div>
+        </div>
     </div>
 </div>

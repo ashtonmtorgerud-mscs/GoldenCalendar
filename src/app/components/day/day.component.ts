@@ -16,7 +16,6 @@ import { TaskService, Task } from '../task.service';
 export class DayComponent {
 
   constructor( private route: ActivatedRoute, private taskService: TaskService ){}
-// , private taskService: TaskService
 
 
   //Tasks Stuff
@@ -25,12 +24,13 @@ export class DayComponent {
   newTaskName = '';
   newTaskDesc = '';
   newTaskDate = new Date();
-  selectedTask: Task = new Task("", "", new Date);
+  selectedTask: Task = new Task(0, "", "", new Date);
 
   // ///Class Names
-  modalVisibility = 'hidden';
-  createTaskModalPlate = 'hidden';
-  deleteTaskModalPlate = 'hiddeen';
+  modalVisibility = false;
+  createTaskModalPlate = false;
+  editTaskModalPlate = false;
+  deleteTaskModalPlate = false;
 
   // //Dates Stuff
   dayParam:number = 0;
@@ -67,13 +67,30 @@ export class DayComponent {
         this.yearParam = todayBackup.getFullYear();
       }
 
+      
 
-      this.dayDate = new Date(this.yearParam, this.monthParam, this.dayParam);
-      this.taskService.getTasksOfDate(this.dayDate);
-      this.selectedTask = this.myTasks[0];
-      // this.newTaskDate = new Date(this.yearParam, this.monthParam, this.dayParam);
-      // this.newTaskDate.setHours(0, 0, 0, 0);
+      this.loadTasks();
+
     });
+  }
+
+  private loadTasks() {
+    this.dayDate = new Date(this.yearParam, this.monthParam, this.dayParam);
+    this.taskService.getTasksOfDatenew(this.dayDate).subscribe({
+      next: (tasks: Task[]) => {
+        this.myTasks = tasks;
+
+        if (this.myTasks.length > 0){
+          this.selectedTask = this.myTasks[0];
+        } else {
+          this.selectedTask = new Task(0, '', '', new Date());
+        }
+      },
+      error: (err) => {
+        console.error('💥 Error fetching tasks:', err);
+      }
+    });
+
   }
 
   GetMonthEnder(day:number): string{
@@ -89,14 +106,26 @@ export class DayComponent {
 
 
   AddNamedTask(): void {
-    this.newTaskDate = new Date (this.dayDate);
-    this.newTaskDate.setHours(0, 0, 0, 0);
+    // this.newTaskDate = new Date (this.dayDate);
+    // this.newTaskDate.setHours(0, 0, 0, 0);
 
-    let newTask = new Task(this.newTaskName, this.newTaskDesc, this.newTaskDate);
+    this.selectedTask.dueDate = new Date(this.newTaskDate);
+    this.selectedTask.dueDate.setHours(0, 0, 0, 0);
+
+    let newTask = new Task(0, this.newTaskName, this.newTaskDesc, this.newTaskDate);
     console.log(newTask);
-    this.taskService.tasks.push(newTask);
-    this.myTasks = this.taskService.getTasksOfDate(this.dayDate);
-    this.selectedTask = this.myTasks[0];
+
+    this.taskService.addTask(newTask).subscribe({
+      next: () => {
+        console.log('Task added successfully!', newTask);
+        this.loadTasks();
+      },
+      error: (err) => {
+        console.error('Error adding task:', err);
+      }
+    });
+
+
     this.newTaskName = '';
     this.newTaskDesc = '';
     
@@ -104,42 +133,62 @@ export class DayComponent {
 
 
   toggleModal(iPanel:string): void {
-    if (this.modalVisibility == 'hidden'){
-      this.modalVisibility = ''
-    } else {
-      this.modalVisibility = 'hidden';
-    }
+      this.modalVisibility = true;
     if (iPanel == 'Create'){
-      this.createTaskModalPlate = '';
-      this.deleteTaskModalPlate = 'hidden';
+      this.createTaskModalPlate = true;
+      this.deleteTaskModalPlate = false;
+      this.editTaskModalPlate = false;
     } else if (iPanel == 'Delete'){
-      this.createTaskModalPlate = 'hidden';
-      this.deleteTaskModalPlate = '';
+      this.createTaskModalPlate = false;
+      this.deleteTaskModalPlate = true;
+      this.editTaskModalPlate = false;
+    } else if (iPanel == 'Edit'){
+      this.newTaskName = this.selectedTask.title;
+      this.newTaskDesc = this.selectedTask.description;
+      this.createTaskModalPlate = false;
+      this.deleteTaskModalPlate = false;
+      this.editTaskModalPlate = true;
     }
+  }
+
+  closeModal(): void {
+    this.modalVisibility = false;
+    this.createTaskModalPlate = false;
+    this.deleteTaskModalPlate = false;
+    this.editTaskModalPlate = false;
+  }
+
+
+  updateTask(){
+    this.selectedTask.title = this.newTaskName;
+    this.selectedTask.description = this.newTaskDesc;
+    this.selectedTask.dueDate = new Date(this.newTaskDate);
+    // this.selectedTask.dueDate.setHours(this.newTaskTime.getHours(), this.newTaskTime.getMinutes(), 0, 0);
+    this.taskService.updateTask(this.selectedTask).subscribe({
+      next: () => {
+        console.log('Task Updated successfully!', this.selectedTask);
+        this.loadTasks();
+      },
+      error: (err) => {
+        console.error('Error deleting task:', err);
+        console.log(this.selectedTask);
+      }
+    });
   }
 
 
   deleteTask(iTask:Task){
-    let tempTasks: Task[] = [];
-    this.taskService.tasks.forEach(task => {
-      if (iTask != task){
-        tempTasks.push(task);
+    
+    this.taskService.deleteTask(iTask).subscribe({
+      next: () => {
+        console.log('Task deleted successfully!');
+        this.loadTasks();
+      },
+      error: (err) => {
+        console.error('Error deleting task:', err);
       }
     });
-    this.taskService.tasks = tempTasks;
-    if (this.taskService.getTasksOfDate(this.dayDate).length > 0){
-      this.selectedTask = this.myTasks[0];
-    } else {
-      this.selectedTask = new Task('No Tasks', '', new Date());
-    }
-    this.myTasks = this.taskService.getTasksOfDate(this.dayDate);
   }
-
-
-  
-
-  
-
 }
 
 

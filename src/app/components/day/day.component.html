@@ -1,17 +1,23 @@
-<a routerLink="/calendar" class="button absolute outline-red-500 text-white p-3 hover:bg-red-700 hover:font-bold rounded-lg select-none z-99">Back</a>
+<a routerLink="/calendar"
+    class="button absolute outline-red-500 text-white p-3 hover:bg-red-700 hover:font-bold rounded-lg select-none z-99">Back</a>
 
-<div class="px-1/4  container {{modalVisibility}}">
-    <div class="fixed bg-white text-black left-1/5 w-3/5 skyBlueBar rounded-lg h-4/5 mt-5 z-99 rotate-z-1 border-3 border-blue-900 p-8">
-        
+<div class="px-1/4 container" *ngIf='modalVisibility'>
+    <div
+        class="fixed bg-white text-black left-1/5 w-3/5 skyBlueBar rounded-lg h-4/5 mt-5 z-99 rotate-z-1 border-3 border-blue-900 p-8">
 
 
-        <div class="{{deleteTaskModalPlate}}" *ngIf="selectedTask != null && selectedTask.title != ''">
-            <p>Are you sure you want to delete this task?</p>
+
+        <div *ngIf='deleteTaskModalPlate'>
+            <p>Are you sure you want to delete this task? This action cannot be undone!</p>
             <p>{{selectedTask.title}}</p>
-            <button (click)="deleteTask(selectedTask)" (click)="toggleModal('Delete')" class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3">Delete</button>
+            <button (click)="deleteTask(selectedTask)" (click)="closeModal()"
+                class="text-white text-xl bg-red-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3">Delete
+                Task</button>
+            <button class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3"
+                (click)="toggleModal('Edit')"> Keep Task </button>
         </div>
 
-        <div class="{{createTaskModalPlate}}">
+        <div *ngIf='createTaskModalPlate || editTaskModalPlate'>
 
             <h1 class="text-2xl font-bold">Task Name</h1>
             <input class="w-full border-1 rounded-lg " type="text" [(ngModel)]="newTaskName" />
@@ -19,20 +25,32 @@
             <h1 class="text-2xl font-bold">Task Description</h1>
             <textarea class="w-full border-1 rounded-lg" [(ngModel)]="newTaskDesc"></textarea>
 
-            
-            
+            <div class="flex flex-row gap-5 mt-5">
+                <div class="w-1/2">
+                    <h1 class="text-2xl font-bold">Due Date</h1>
+                    <input type="date" [(ngModel)]="newTaskDate" class="w-full border-1 rounded-lg" />
+                </div>
+
+
+            </div>
 
 
 
-            <button class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3" (click)="toggleModal('Create')" (click)="AddNamedTask()"> Add </button>
-            <button class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3" (click)="toggleModal('Create')"> Close </button>
+
+            <button class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3"
+                (click)="closeModal()" (click)="AddNamedTask()" *ngIf='createTaskModalPlate'> Add </button>
+            <button class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3"
+                (click)="closeModal()" (click)="updateTask()" *ngIf='editTaskModalPlate'> Update </button>
+            <button class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3"
+                (click)="closeModal()"> Close </button>
         </div>
     </div>
 </div>
 
 
 <div id="topBar" class="bg-yellow-300 w-4/5 h-1/12 rounded-lg mb-12 orangebar select-none">
-    <h1 class="textOutliner text-7xl text-center font-bold "> {{monthShort[monthParam] + " " +  dayParam + GetMonthEnder(dayParam) + " - " + yearParam}} </h1>
+    <h1 class="textOutliner text-7xl text-center font-bold "> {{monthShort[monthParam] + " " + dayParam +
+        GetMonthEnder(dayParam) + " - " + yearParam}} </h1>
 </div>
 
 
@@ -40,27 +58,35 @@
 
 <div class="select-none">
     <div class="container mx-auto mt-5 flex flex-row gap-7 origin-left rounded-lg h-full">
-        <div class="bg-white text-black w-1/2 shadow-xl  textOutliner h-100% rounded-lg px-5" name="" id="">
+        <div class="bg-white text-black w-1/2 shadow-xl h-100% rounded-lg p-5" name="" id="">
             <div class="" *ngIf="selectedTask != null && selectedTask.title != ''">
-                <p>{{selectedTask.title}}</p>
+                <p class="font-bold text-2xl">{{selectedTask.title}}</p>
                 <p>{{selectedTask.description}}</p>
-                <p>{{selectedTask.dueDate}}</p>
-                <button *ngIf="selectedTask.title != ''" (click)="toggleModal('Delete')" class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3">Delete</button>
+                <p>Due By: {{selectedTask.dueDate.toDateString()}}</p>
+                <button *ngIf="selectedTask.title != ''" (click)="toggleModal('Edit')"
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3">Edit</button>
+                <button *ngIf="selectedTask.title != ''" (click)="toggleModal('Delete')"
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3">Delete</button>
+
             </div>
         </div>
-        <div class="bg-white text-black w-1/2 rotate-z-1 rounded-lg outline-7 outline-yellow-300 orangebar" name="" id="">
+        <div class="bg-white text-black w-1/2 rotate-z-1 rounded-lg outline-7 outline-yellow-300 orangebar" name=""
+            id="">
             <div class="h-12 bg-yellow-300 text-center">
                 <h1 class="text-4xl font-bold textOutliner">Today's Events</h1>
-            </div>    
-        
+            </div>
+
             <div class="w-100% p-5 text-2xl max-height-96">
                 <div *ngFor="let task of myTasks">
-                    <div class="" (click)="this.selectedTask = task">
+                    <div class="" (click)="this.selectedTask = task;">
+
                         <p class="font-bold">{{ "•"+task.title}}</p>
                         <p class="text-sm pb-5">{{task.description}}</p>
                     </div>
                 </div>
-                <button class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3" (click)="toggleModal('Create')"> Create Task </button>
+                <button
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3"
+                    (click)="toggleModal('Create')"> Create Task </button>
             </div>
         </div>
     </div>
