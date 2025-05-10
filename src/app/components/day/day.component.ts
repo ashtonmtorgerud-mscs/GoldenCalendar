@@ -1,4 +1,4 @@
-import { NgFor, NgIf, } from '@angular/common';
+import { NgClass, NgFor, NgIf, } from '@angular/common';
 import { Component, Input, NgModule, numberAttribute } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RouterLink } from '@angular/router';
@@ -8,7 +8,7 @@ import { TaskService, Task } from '../task.service';
 
 @Component({
   selector: 'app-day',
-  imports: [NgFor, NgIf, RouterLink, FormsModule],
+  imports: [NgFor, NgIf, RouterLink, FormsModule, NgClass],
   templateUrl: './day.component.html',
   styleUrl: './day.component.css'
 })
@@ -24,6 +24,14 @@ export class DayComponent {
   newTaskName = '';
   newTaskDesc = '';
   newTaskDate = new Date();
+  newTaskDay = 0;
+  newTaskMonth = 0;
+  newTaskYear = 0;
+  newTaskHour = 0;
+  newTaskMinute = 0;
+  newTaskTime = new Date();
+  enteredDate = false;
+  enteredTime = false;
   selectedTask: Task = new Task(0, "", "", new Date);
 
   // ///Class Names
@@ -31,6 +39,7 @@ export class DayComponent {
   createTaskModalPlate = false;
   editTaskModalPlate = false;
   deleteTaskModalPlate = false;
+  copyTaskModalPlate = false;
 
   // //Dates Stuff
   dayParam:number = 0;
@@ -40,6 +49,15 @@ export class DayComponent {
   monthShort: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
   dayDate = new Date();
 
+  validTask: boolean = false;
+  ValidateTask(): void {
+    if (this.newTaskName != '' && this.newTaskDesc != '' && this.enteredDate && this.enteredTime){
+      this.validTask = true;
+    } else {
+      this.validTask = false;
+    }
+  }
+  
 
   ngOnInit(){
     
@@ -87,7 +105,7 @@ export class DayComponent {
         }
       },
       error: (err) => {
-        console.error('💥 Error fetching tasks:', err);
+        console.error('Error fetching tasks:', err);
       }
     });
 
@@ -106,11 +124,11 @@ export class DayComponent {
 
 
   AddNamedTask(): void {
-    // this.newTaskDate = new Date (this.dayDate);
-    // this.newTaskDate.setHours(0, 0, 0, 0);
 
     this.selectedTask.dueDate = new Date(this.newTaskDate);
     this.selectedTask.dueDate.setHours(0, 0, 0, 0);
+
+    // this.selectedTask.dueDate.setHours();
 
     let newTask = new Task(0, this.newTaskName, this.newTaskDesc, this.newTaskDate);
     console.log(newTask);
@@ -128,27 +146,43 @@ export class DayComponent {
 
     this.newTaskName = '';
     this.newTaskDesc = '';
+    this.enteredDate = false;
+    this.enteredTime = false;
     
   }
 
 
   toggleModal(iPanel:string): void {
+    
       this.modalVisibility = true;
     if (iPanel == 'Create'){
       this.createTaskModalPlate = true;
       this.deleteTaskModalPlate = false;
       this.editTaskModalPlate = false;
+      this.copyTaskModalPlate = false;
     } else if (iPanel == 'Delete'){
       this.createTaskModalPlate = false;
       this.deleteTaskModalPlate = true;
       this.editTaskModalPlate = false;
+      this.copyTaskModalPlate = false;
     } else if (iPanel == 'Edit'){
       this.newTaskName = this.selectedTask.title;
       this.newTaskDesc = this.selectedTask.description;
       this.createTaskModalPlate = false;
       this.deleteTaskModalPlate = false;
       this.editTaskModalPlate = true;
+      this.copyTaskModalPlate = false;
+    } else if (iPanel == 'Duplicate'){
+      this.newTaskName = this.selectedTask.title;
+      this.newTaskDesc = this.selectedTask.description;
+      this.createTaskModalPlate = false;
+      this.deleteTaskModalPlate = false;
+      this.editTaskModalPlate = false;
+      this.copyTaskModalPlate = true;
     }
+
+    this.enteredDate = false;
+    this.enteredTime = false;
   }
 
   closeModal(): void {
@@ -156,6 +190,7 @@ export class DayComponent {
     this.createTaskModalPlate = false;
     this.deleteTaskModalPlate = false;
     this.editTaskModalPlate = false;
+    this.copyTaskModalPlate = false;
   }
 
 

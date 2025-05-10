@@ -19,6 +19,10 @@
     box-shadow: 1vw 1vh darkorange;
 }
 
+.darkBlueBar{
+    box-shadow: 1vw 1vh darkblue;
+}
+
 .skyBlueBar{
     box-shadow: 1vw 1vh skyblue;
 }

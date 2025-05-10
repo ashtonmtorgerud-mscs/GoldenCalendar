@@ -1,93 +1,111 @@
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { NgModel, FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Contact, Yuu, Social, ContactService } from '../contact.service';
 
 @Component({
   selector: 'app-contacts',
-  imports: [ FormsModule, NgIf, NgFor , RouterLink],
+  imports: [FormsModule, NgIf, NgFor, RouterLink, NgClass],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.css'
 })
 export class ContactsComponent {
 
+
+  constructor(private contactService: ContactService) { }
+
+  log(iString: string) {
+    console.log(iString);
+  }
+
+
   //Pages Stuff
-  pages: string[] = ['Body', 'Head', 'Eyes', 'Mouth', 'Nose', 'Hair', 'Beard', 'Glasses', 'Save'];
+  tags: string[] = ['All', 'Favorites', 'Family', 'Friends', 'Work', 'Academia'];
   selectedPageIndex: number = 0;
-  maxPage:number = 1;
+  maxPage: number = 1;
 
 
-  //Modifiers
-  hue: number[] = [0, 0, 0, 0, 0, 0, 0];
-  brightness: number[] = [100, 100, 100, 100, 100, 100, 100];
-  saturation: number[] = [100, 100, 100, 100, 100, 100, 100];
-  xOffset: number[] = [0,0,0,0,0,0,0,0];
-  yOffset: number[] = [0,0,0,0,0,0,0,0];
-  xScale: number[] = [10,10,0,0,0,0,0,0];
-  yScale: number[] = [10,10,0,0,0,0,0,0];
-
-  //Head
-  headOptions: string[] = ['Head1', 'Head2'];
-  selectedHead : string = '';
-
-  //Eyes
-  eyeOptions: string[] = ['Eyes1', 'Eyes2', 'Eyes3'];
-  selectedEyes : string = '';
-
-  //Mouths
-  mouthOptions: string[] = ['Mouth1', 'Mouth2', 'Mouth3'];
-  selectedMouth : string = '';
-
-  //Hair
-  hairOptions: string[] = ['Hair0','Hair1', 'Hair2', 'Hair3', 'Hair4', 'Hair5'];
-  selectedHair : string = '';
-  backHairOptions: string[] = ['BackHair0','BackHair1','BackHair2'];
-  selectedBackHair : string = '';
-  beardOptions: string[] = ['Beard0','Beard1','Beard2','Beard3'];
-  selectedBeard : string = '';
-
-    //Nose
-    noseOptions: string[] = ['Nose1', 'Nose2', 'Nose3', 'Nose4', 'Nose5', 'Nose6'];
-    selectedNose : string = '';
-
-        //Glasses
-        glassesOptions: string[] = ['Glasses0', 'Glasses1', 'Glasses2', 'Glasses3'];
-        selectedGlasses : string = '';
+  darkMode: boolean = false;
 
 
 
+  // Yuus
+  defaultYuu: Yuu = new Yuu('/Yuu/Heads/Head1.png', '/Yuu/Eyes/EyesUnknown.png', '/Yuu/Mouths/MouthUnknown.png', '', '', '', '', '',
+    [100, 100, 100, 100, 100, 100, 100],
+    [0, 0, 100, 100, 100, 100, 100],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [10, 10, 0, 0, 0, 0, 0],
+    [10, 10, 0, 0, 0, 0, 0]);
 
-  // headOptions: string[] = ['Head1', 'Head2', 'Head3', 'Head4', 'Head5', 'Head6', 'Head7', 'Head8', 'Head9', 'Head10'];
+
+  contacts: Contact[] = [];
+
+  selectedContact: Contact = new Contact(
+    0, '', '', '', '', '', [false, false, false, true, false], [], new Date(), this.defaultYuu);
+  selectedContactIndex: number = 0;
+
+  ngOnInit() {
+    let defaultContact = new Contact(
+      0,
+      'Mr. Nobody',
+      '',
+      '',
+      '',
+      '',
+      [false, false, false, true, false],
+      [],
+      new Date(),
+      this.defaultYuu
+    );
 
 
-  unlockPage(index: number): void {
-    if (index > this.maxPage) {
-      this.maxPage = index;
+
+    this.selectedContact = defaultContact;
+
+    this.GetContacts();
+
+    if (this.selectedPageIndex !== 0) {
+      const selectedTagIndex = this.selectedPageIndex - 1;
+      this.contacts = this.contacts.filter(contact => contact.tags[selectedTagIndex]);
     }
+
   }
 
 
-
-  saveYuu(): void {
-    // Save the Yuu data to local storage or send it to the server
-    const yuuData = {
-      head: this.selectedHead,
-      eyes: this.selectedEyes,
-      mouth: this.selectedMouth,
-      hair: this.selectedHair,
-      backHair: this.selectedBackHair,
-      beard: this.selectedBeard,
-      nose: this.selectedNose,
-      glasses: this.selectedGlasses,
-      hue: this.hue,
-      brightness: this.brightness,
-      saturation: this.saturation,
-      xOffset: this.xOffset,
-      yOffset: this.yOffset,
-      xScale: this.xScale,
-      yScale: this.yScale
-    };
-    console.log('Yuu data saved:', yuuData);
+  GetContacts() {
+    this.contactService.getContacts().subscribe({
+      next: (contacts) => {
+        this.contacts = contacts;
+        if (this.contacts.length > 0) {
+          this.selectedContact = this.contacts[0];
+          this.selectedContactIndex = 0;
+        }
+      },
+      error: (err) => {
+        console.error('Failed to load contacts', err);
+      }
+    });
   }
+
+  DeleteContact(input:number) {
+    this.contactService.deleteContact(input).subscribe({
+      next: (contacts) => {
+        console.log('Deleted contact: ', contacts);
+        this.GetContacts();
+      },
+      error: (err) => {
+        console.error('Failed to delete contact: ', err);
+      }
+    });
+  }
+
+
 
 }
+
+
+
+

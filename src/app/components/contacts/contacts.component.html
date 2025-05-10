@@ -1,514 +1,251 @@
+<a routerLink="/"
+    class="button absolute bg-red-400 text-white p-3 hover:bg-red-500 hover:font-bold rounded-lg select-none">Back</a>
 
-    
-<div class="flex h-screen">
+<button (click)="darkMode = !darkMode"
+    class="button absolute bg-blue-800 text-white p-3 hover:bg-blue-950 hover:font-bold rounded-lg select-none right-0"> 
+    <p *ngIf="darkMode" >Light</p>
+    <p *ngIf="!darkMode" >Dark</p>
+</button>
 
-    <div class="w-1/4 bg-gray-100">
-        
-        <a routerLink="/" class="button absolute outline-red-500 text-white p-3 hover:bg-red-700 hover:font-bold rounded-lg select-none">Back</a>
+<div class="w-full h-screen overflow-y-auto" [ngClass]="darkMode ? 'bg-slate-900 text-white' : 'bg-white text-black'" >
+    <div class="container mx-auto flex flex-row">
+        <div class="w-1/4  p-1 h-screen rounded-lg">
 
-        <h1 class="text-5xl font-bold mx-auto text-center pt-4 relative">Char name</h1>
-        <div class="aspect-square bg-blue-100 w-3/4 m-5 overflow-hidden rounded-lg border-1 shadow-md mx-auto">
-            <div class="w-full h-full object-contain relative aspect-square">
+            <div class="h-full" [ngClass]="darkMode ? 'bg-slate-600 text-white' : 'bg-blue-100 text-black'" >
 
-                <img *ngIf="selectedBackHair != ''" src="{{selectedBackHair}}" alt="Yuu Hair"
-                class="object-cover rounded-lg pixel-art absolute w-full"
-                [style.filter]="'hue-rotate(' + hue[5] + 'deg) brightness(' + (brightness[5]-1) + '%) saturate(' + saturation[5] + '%)'"
-                [style.top]="(yOffset[1]+yOffset[5]) + '%'" [style.left]="xOffset[1]+xOffset[5] + '%'" 
-                [style.transform]="'scale(' + (yScale[1]/10 + xScale[5]/10) + ', ' + (yScale[1]/10 + yScale[5]/10) + ')'" />
+                <div class="w-full h-1/8 bg-gradient-to-r from-blue-400 to-blue-300 px-6 py-4 rounded-t-lg shadow-md">
+                    <p class="text-4xl font-bold text-center text-white drop-shadow-lg">Contacts:</p>
+                    
+                    <div class="flex flex-col md:flex-row md:space-x-4 mt-4 items-center">
 
-
-
-                <img src="/Yuu/Body.png" alt="Yuu Body" class="rounded-lg pixel-art absolute w-full"
-                    [style.filter]="'hue-rotate(' + hue[0] + 'deg) brightness(' + brightness[0] + '%) saturate(' + saturation[0] + '%)'" />
-
-
-
-
-                <img *ngIf="selectedHead != ''" src="{{selectedHead}}" alt="Yuu Head"
-                    class="object-cover rounded-lg pixel-art absolute w-full"
-                    [style.filter]="'hue-rotate(' + hue[1] + 'deg) brightness(' + brightness[1] + '%) saturate(' + saturation[1] + '%)'"
-                    [style.top]="yOffset[1] + '%'" [style.left]="xOffset[1] + '%'" 
-                    [style.transform]="'scale(' + xScale[1]/10 + ', ' + yScale[1]/10 + ')'" />
-
-                <img *ngIf="selectedEyes != ''" src="{{selectedEyes}}" alt="Yuu Eyes"
-                    class="object-cover rounded-lg pixel-art absolute w-full"
-                    [style.filter]="'hue-rotate(' + hue[2] + 'deg) brightness(' + brightness[2] + '%) saturate(' + saturation[2] + '%)'"
-                    [style.top]="(yOffset[1]+yOffset[2]) + '%'" [style.left]="xOffset[1]+xOffset[2] + '%'" 
-                    [style.transform]="'scale(' + (yScale[1]/10 + xScale[2]/10) + ', ' + (yScale[1]/10 + yScale[2]/10) + ')'" />
-
-                <img *ngIf="selectedMouth != ''" src="{{selectedMouth}}" alt="Yuu Mouth"
-                    class="object-cover rounded-lg pixel-art absolute w-full"
-              
-                    [style.filter]="'hue-rotate(' + hue[3] + 'deg) brightness(' + brightness[3] + '%) saturate(' + saturation[3] + '%)'"
-                    [style.top]="(yOffset[1]+yOffset[3]) + '%'" [style.left]="xOffset[1]+xOffset[3] + '%'" 
-                    [style.transform]="'scale(' + (yScale[1]/10 + xScale[3]/10) + ', ' + (yScale[1]/10 + yScale[3]/10) + ')'" />
+                        <ul class="flex flex-row justify-center space-x-4 w-full">
+                            <li *ngFor="let page of tags; let i = index"
+                                [ngClass]="{'font-bold text-blue-500': selectedPageIndex === i, 'text-gray-500': selectedPageIndex !== i}" 
+                                class="cursor-pointer">
+                                <p class="text-sm w-1/6" (click)="selectedPageIndex = i"  > {{ page }} </p>
+                            </li>
+                        </ul>
 
 
-                <img *ngIf="selectedNose != ''" src="{{selectedNose}}" alt="Yuu Nose"
-                    class="object-cover rounded-lg pixel-art absolute w-full"
-                    [style.filter]="'hue-rotate(' + hue[1] + 'deg) brightness(' + brightness[1] + '%) saturate(' + saturation[1] + '%)'"
-                    [style.top]="(yOffset[1]+yOffset[4]) + '%'" [style.left]="xOffset[1]+xOffset[4] + '%'" 
-                    [style.transform]="'scale(' + (yScale[1]/10 + xScale[4]/10) + ', ' + (yScale[1]/10 + yScale[4]/10) + ')'" />
-                
+                    </div>
+                </div>
 
+                <div class="w-full h-3/4 px-2 overflow-y-auto overflow-x-hidden">
 
-                <img *ngIf="selectedBeard != ''" src="{{selectedBeard}}" alt="Yuu Beard"
-                    class="object-cover rounded-lg pixel-art absolute w-full"
-                    [style.filter]="'hue-rotate(' + hue[5] + 'deg) brightness(' + brightness[5] + '%) saturate(' + saturation[5] + '%)'"
-                    [style.top]="(yOffset[1]+yOffset[6]) + '%'" [style.left]="xOffset[1]+xOffset[6] + '%'" 
-                    [style.transform]="'scale(' + (yScale[1]/10 + xScale[6]/10) + ', ' + (yScale[1]/10 + yScale[6]/10) + ')'" />
+                    <div class="w-full border-gray-200 rounded-lg shadow-md flex flex-row hoverPop hover:z-99" [ngClass]="darkMode ? 'bg-slate-900 text-white hover:bg-black' : 'bg-white text-black hover:bg-gray-100'"
+                        *ngFor="let contact of contacts" (click)="selectedContact = contact">
+                        <div class="aspect-square bg-blue-100 w-1/3 overflow-hidden rounded-lg border-1">
+                            <div class="w-full h-full object-contain relative aspect-square">
 
+                                <img *ngIf="contact.yuu.selectedBackHair != ''" [src]="contact.yuu.selectedBackHair"
+                                    alt="Yuu Back Hair" class="object-cover rounded-lg pixel-art absolute w-full"
+                                    [style.filter]="'hue-rotate(' + contact.yuu.hue[5] + 'deg) brightness(' + (contact.yuu.brightness[5]-1) + '%) saturate(' + contact.yuu.saturation[5] + '%)'"
+                                    [style.top]="(contact.yuu.yOffset[1]+contact.yuu.yOffset[5]) + '%'"
+                                    [style.left]="contact.yuu.xOffset[1]+contact.yuu.xOffset[5] + '%'"
+                                    [style.transform]="'scale(' + (contact.yuu.yScale[1]/10 + contact.yuu.xScale[5]/10) + ', ' + (contact.yuu.yScale[1]/10 + contact.yuu.yScale[5]/10) + ')'" />
 
+                                <img *ngIf="contact.yuu.selectedHair != ''" [src]="contact.yuu.selectedHair"
+                                    alt="Yuu Hair" class="object-cover rounded-lg pixel-art absolute w-full"
+                                    [style.filter]="'hue-rotate(' + contact.yuu.hue[5] + 'deg) brightness(' + (contact.yuu.brightness[5]-1) + '%) saturate(' + contact.yuu.saturation[5] + '%)'"
+                                    [style.top]="(contact.yuu.yOffset[1]+contact.yuu.yOffset[5]) + '%'"
+                                    [style.left]="contact.yuu.xOffset[1]+contact.yuu.xOffset[5] + '%'"
+                                    [style.transform]="'scale(' + (contact.yuu.yScale[1]/10 + contact.yuu.xScale[5]/10) + ', ' + (contact.yuu.yScale[1]/10 + contact.yuu.yScale[5]/10) + ')'" />
 
+                                <img [src]="'/Yuu/Body.png'" alt="Yuu Body" class="rounded-lg pixel-art absolute w-full"
+                                    [style.filter]="'hue-rotate(' + contact.yuu.hue[0] + 'deg) brightness(' + contact.yuu.brightness[0] + '%) saturate(' + contact.yuu.saturation[0] + '%)'" />
 
+                                <img *ngIf="contact.yuu.selectedHead != ''" [src]="'/Yuu/Heads/Head1.png'"
+                                    alt="Yuu Head" class="object-cover rounded-lg pixel-art absolute w-full"
+                                    [style.filter]="'hue-rotate(' + contact.yuu.hue[1] + 'deg) brightness(' + contact.yuu.brightness[1] + '%) saturate(' + contact.yuu.saturation[1] + '%)'"
+                                    [style.top]="contact.yuu.yOffset[1] + '%'"
+                                    [style.left]="contact.yuu.xOffset[1] + '%'"
+                                    [style.transform]="'scale(' + contact.yuu.xScale[1]/10 + ', ' + contact.yuu.yScale[1]/10 + ')'" />
 
-                <img *ngIf="selectedHair != ''" src="{{selectedHair}}" alt="Yuu Hair"
-                    class="object-cover rounded-lg pixel-art absolute w-full"
-                    [style.filter]="'hue-rotate(' + hue[5] + 'deg) brightness(' + brightness[5] + '%) saturate(' + saturation[5] + '%)'"
-                    [style.top]="(yOffset[1]+yOffset[5]) + '%'" [style.left]="xOffset[1]+xOffset[5] + '%'" 
-                    [style.transform]="'scale(' + (yScale[1]/10 + xScale[5]/10) + ', ' + (yScale[1]/10 + yScale[5]/10) + ')'" />
-                    <img *ngIf="selectedGlasses != ''" src="{{selectedGlasses}}" alt="Yuu Glasses"
-                    class="object-cover rounded-lg pixel-art absolute w-full"
-                    [style.top]="(yOffset[1]+yOffset[7]) + '%'" [style.left]="xOffset[1]+xOffset[7] + '%'" 
-                    [style.transform]="'scale(' + (yScale[1]/10 + xScale[7]/10) + ', ' + (yScale[1]/10 + yScale[7]/10) + ')'" />
+                                <img *ngIf="contact.yuu.selectedEyes != ''" [src]="contact.yuu.selectedEyes"
+                                    alt="Yuu Eyes" class="object-cover rounded-lg pixel-art absolute w-full"
+                                    [style.filter]="'hue-rotate(' + contact.yuu.hue[2] + 'deg) brightness(' + contact.yuu.brightness[2] + '%) saturate(' + contact.yuu.saturation[2] + '%)'"
+                                    [style.top]="(contact.yuu.yOffset[1]+contact.yuu.yOffset[2]) + '%'"
+                                    [style.left]="contact.yuu.xOffset[1]+contact.yuu.xOffset[2] + '%'"
+                                    [style.transform]="'scale(' + (contact.yuu.yScale[1]/10 + contact.yuu.xScale[2]/10) + ', ' + (contact.yuu.yScale[1]/10 + contact.yuu.yScale[2]/10) + ')'" />
 
-            </div>
-        </div>
-    </div>
+                                <img *ngIf="contact.yuu.selectedMouth != ''" [src]="contact.yuu.selectedMouth"
+                                    alt="Yuu Mouth" class="object-cover rounded-lg pixel-art absolute w-full"
+                                    [style.filter]="'hue-rotate(' + contact.yuu.hue[3] + 'deg) brightness(' + contact.yuu.brightness[3] + '%) saturate(' + contact.yuu.saturation[3] + '%)'"
+                                    [style.top]="(contact.yuu.yOffset[1]+contact.yuu.yOffset[3]) + '%'"
+                                    [style.left]="contact.yuu.xOffset[1]+contact.yuu.xOffset[3] + '%'"
+                                    [style.transform]="'scale(' + (contact.yuu.yScale[1]/10 + contact.yuu.xScale[3]/10) + ', ' + (contact.yuu.yScale[1]/10 + contact.yuu.yScale[3]/10) + ')'" />
 
-    <div class="w-3/4 ">
-        <div
-            class="text-sm font-medium text-center text-gray-500 border-b border-gray-200">
-            <ul class="flex flex-wrap -mb-px">
-                <li class="me-2" *ngFor="let page of pages; let i = index" (click)="selectedPageIndex = i">
-                    <div class="" *ngIf="i <= maxPage">
-                        <div *ngIf="selectedPageIndex == i"
-                            class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-blue-600 border-blue-400">
-                            {{page}}</div>
-                        <div *ngIf="selectedPageIndex != i"
-                            class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-400 hover:border-blue-400">
-                            {{page}}</div>
+                                <img *ngIf="contact.yuu.selectedNose != ''" [src]="contact.yuu.selectedNose"
+                                    alt="Yuu Nose" class="object-cover rounded-lg pixel-art absolute w-full"
+                                    [style.filter]="'hue-rotate(' + contact.yuu.hue[1] + 'deg) brightness(' + contact.yuu.brightness[1] + '%) saturate(' + contact.yuu.saturation[1] + '%)'"
+                                    [style.top]="(contact.yuu.yOffset[1]+contact.yuu.yOffset[4]) + '%'"
+                                    [style.left]="contact.yuu.xOffset[1]+contact.yuu.xOffset[4] + '%'"
+                                    [style.transform]="'scale(' + (contact.yuu.yScale[1]/10 + contact.yuu.xScale[4]/10) + ', ' + (contact.yuu.yScale[1]/10 + contact.yuu.yScale[4]/10) + ')'" />
+
+                                <img *ngIf="contact.yuu.selectedBeard != ''" [src]="contact.yuu.selectedBeard"
+                                    alt="Yuu Beard" class="object-cover rounded-lg pixel-art absolute w-full"
+                                    [style.filter]="'hue-rotate(' + contact.yuu.hue[5] + 'deg) brightness(' + contact.yuu.brightness[5] + '%) saturate(' + contact.yuu.saturation[5] + '%)'"
+                                    [style.top]="(contact.yuu.yOffset[1]+contact.yuu.yOffset[6]) + '%'"
+                                    [style.left]="contact.yuu.xOffset[1]+contact.yuu.xOffset[6] + '%'"
+                                    [style.transform]="'scale(' + (contact.yuu.yScale[1]/10 + contact.yuu.xScale[6]/10) + ', ' + (contact.yuu.yScale[1]/10 + contact.yuu.yScale[6]/10) + ')'" />
+
+                                <img *ngIf="contact.yuu.selectedHair != ''" [src]="contact.yuu.selectedHair"
+                                    alt="Yuu Hair" class="object-cover rounded-lg pixel-art absolute w-full"
+                                    [style.filter]="'hue-rotate(' + contact.yuu.hue[5] + 'deg) brightness(' + contact.yuu.brightness[5] + '%) saturate(' + contact.yuu.saturation[5] + '%)'"
+                                    [style.top]="(contact.yuu.yOffset[1]+contact.yuu.yOffset[5]) + '%'"
+                                    [style.left]="contact.yuu.xOffset[1]+contact.yuu.xOffset[5] + '%'"
+                                    [style.transform]="'scale(' + (contact.yuu.yScale[1]/10 + contact.yuu.xScale[5]/10) + ', ' + (contact.yuu.yScale[1]/10 + contact.yuu.yScale[5]/10) + ')'" />
+
+                                <img *ngIf="contact.yuu.selectedGlasses != ''" [src]="contact.yuu.selectedGlasses"
+                                    alt="Yuu Glasses" class="object-cover rounded-lg pixel-art absolute w-full"
+                                    [style.top]="(contact.yuu.yOffset[1]+contact.yuu.yOffset[7]) + '%'"
+                                    [style.left]="contact.yuu.xOffset[1]+contact.yuu.xOffset[7] + '%'"
+                                    [style.transform]="'scale(' + (contact.yuu.yScale[1]/10 + contact.yuu.xScale[7]/10) + ', ' + (contact.yuu.yScale[1]/10 + contact.yuu.yScale[7]/10) + ')'" />
+
+                            </div>
+
                         </div>
-                </li>
-            </ul>
-        </div>
-
-
-
-        <div class="p-4" *ngIf="selectedPageIndex == 0">
-            <h1 class="text-3xl font-bold">{{pages[selectedPageIndex]}}</h1>
-            <hr />
-            <h1 class="text-xl font-bold py-5">Shirt Color</h1>
-
-            <div class="flex gap-2">
-                <div class="w-1/3">
-
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="hueRange">Hue: {{ hue[0] }}</label>
-                        <input type="range" min="0" max="360" [(ngModel)]="hue[0]" class="slider hue-slider w-full"
-                            id="headHue" />
-                    </div>
-                </div>
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="satRange">Saturation: {{ saturation[0] }}</label> <br>
-                        <input type="range" min="0" max="100" [(ngModel)]="saturation[0]" class="slider saturation-slider w-full"
-                            id="headSat" />
-                    </div>
-                </div> 
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="brightRange">Brightness: {{ brightness[0] }}</label> <br>
-                        <input type="range" min="0" max="255" [(ngModel)]="brightness[0]" class="slider brightness-slider w-full "
-                            id="headBright" />
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="p-4" *ngIf="selectedPageIndex == 1">
-            <h1 class="text-3xl font-bold">{{pages[selectedPageIndex]}}</h1>
-            <hr />
-
-            <h1 class="text-xl font-bold py-5">Skin Color</h1>
-
-            <div class="flex gap-2">
-                <div class="w-1/3">
-
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="hueRange">Hue: {{ hue[1] }}</label>
-                        <input type="range" min="0" max="360" [(ngModel)]="hue[1]" class="slider hue-slider w-full"
-                            id="headHue" />
-                    </div>
-                </div>
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="satRange">Saturation: {{ saturation[1] }}</label> <br>
-                        <input type="range" min="0" max="100" [(ngModel)]="saturation[1]" class="slider saturation-slider w-full"
-                            id="headSat" />
-                    </div>
-                </div> 
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="brightRange">Brightness: {{ brightness[1] }}</label> <br>
-                        <input type="range" min="0" max="180" [(ngModel)]="brightness[1]" class="slider brightness-slider w-full "
-                            id="headBright" />
-                    </div>
-                </div>
-            </div>
-
-
-            <h1 class="text-xl font-bold py-5">Transform</h1>
-
-            <div class="flex gap-2">
-                <div class="w-1/3">
-
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="hueRange">Horizontal Offset: {{ xOffset[1] }}</label>
-                        <input type="range" min="-5" max="5" [(ngModel)]="xOffset[1]" class="slider transform-slider w-full" id="headXPos" />
-                    </div>
-                </div>
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="satRange">Vertical Offset: {{ yOffset[1] }}</label> <br>
-                        <input type="range" min="-5" max="5" [(ngModel)]="yOffset[1]" class="slider transform-slider w-full" id="headYPos" />
-                    </div>
-                </div> 
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="brightRange">Scale: {{ xScale[1]/10 }}</label> <br>
-                        <input type="range" min="7" max="13" [(ngModel)]="xScale[1]" (input)="yScale[1] = xScale[1]" class="slider transform-slider w-full" id="headYPos" />
-                    </div>
-                </div>
-            </div>
-
-
-            <h1 class="text-xl font-bold py-4">Selected Head</h1>
-
-            <div class="w-full bg-gray-200 rounded-xl flex flex-wrap gap-3">
-
-                <div *ngFor="let head of headOptions"
-                    class="aspect-square bg-blue-100 w-1/10 overflow-hidden rounded-lg border-1 shadow-md flex flex-wrap gap-3 hover:border-blue-300 hoverPop">
-                    <img [src]="'/Yuu/Heads/' + head + '.png'" [alt]="head"
-                        class="w-full h-full object-cover rounded-lg pixel-art"
-                        (click)="selectedHead = '/Yuu/Heads/' + head + '.png'; unlockPage(2)"
-                        [style.filter]="'hue-rotate(' + hue[1] + 'deg) brightness(' + brightness[1] + '%) saturate(' + saturation[1] + '%)'" />
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="p-4" *ngIf="selectedPageIndex == 2">
-            <h1 class="text-3xl font-bold">{{pages[selectedPageIndex]}}</h1>
-            <hr />
-
-
-            <h1 class="text-xl font-bold py-5">Transform</h1>
-
-            <div class="flex gap-2">
-                <div class="w-1/3">
-
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="hueRange">Horizontal Offset: {{ xOffset[2] }}</label>
-                        <input type="range" min="-5" max="5" [(ngModel)]="xOffset[2]" class="slider transform-slider w-full" id="headXPos" />
-                    </div>
-                </div>
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="satRange">Vertical Offset: {{ yOffset[2] }}</label> <br>
-                        <input type="range" min="-5" max="5" [(ngModel)]="yOffset[2]" class="slider transform-slider w-full" id="headYPos" />
-                    </div>
-                </div> 
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="brightRange">Scale: {{ xScale[2]/10 }}</label> <br>
-                        <input type="range" min="-5" max="10" [(ngModel)]="xScale[2]" (input)="yScale[2] = xScale[2]" class="slider transform-slider w-full" id="headYPos" />
-                    </div>
-                </div>
-            </div>
-
-
-            <h1 class="text-xl font-bold py-4">Selected Eyes</h1>
-
-            <div class="w-full bg-gray-200 rounded-xl flex flex-wrap gap-3">
-
-                <div *ngFor="let eyes of eyeOptions"
-                    class="aspect-square bg-blue-100 w-1/10 overflow-hidden rounded-lg border-1 shadow-md flex flex-wrap gap-3 hover:border-blue-300 hoverPop">
-                    <img [src]="'/Yuu/Eyes/' + eyes + '.png'" [alt]="eyes"
-                        class="w-full h-full object-cover rounded-lg pixel-art"
-                        (click)="selectedEyes = '/Yuu/Eyes/' + eyes + '.png'; unlockPage(3)"
-                        [style.filter]="'hue-rotate(' + hue[2] + 'deg) brightness(' + brightness[2] + '%) saturate(' + saturation[2] + '%)'" />
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="p-4" *ngIf="selectedPageIndex == 3">
-            <h1 class="text-3xl font-bold">{{pages[selectedPageIndex]}}</h1>
-            <hr />
-
-
-            <h1 class="text-xl font-bold py-5">Transform</h1>
-
-            <div class="flex gap-2">
-                <div class="w-1/3">
-
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="hueRange">Horizontal Offset: {{ xOffset[3] }}</label>
-                        <input type="range" min="-5" max="5" [(ngModel)]="xOffset[3]" class="slider transform-slider w-full" id="headXPos" />
-                    </div>
-                </div>
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="satRange">Vertical Offset: {{ yOffset[3] }}</label> <br>
-                        <input type="range" min="-5" max="5" [(ngModel)]="yOffset[3]" class="slider transform-slider w-full" id="headYPos" />
-                    </div>
-                </div> 
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="brightRange">Scale: {{ xScale[3]/10 }}</label> <br>
-                        <input type="range" min="-5" max="10" [(ngModel)]="xScale[3]" (input)="yScale[3] = xScale[3]" class="slider transform-slider w-full" id="headYPos" />
-                    </div>
-                </div>
-            </div>
-
-
-            <h1 class="text-xl font-bold py-4">Selected Mouth</h1>
-
-            <div class="w-full bg-gray-200 rounded-xl flex flex-wrap gap-3">
-
-                <div *ngFor="let mouth of mouthOptions"
-                    class="aspect-square bg-blue-100 w-1/10 overflow-hidden rounded-lg border-1 shadow-md flex flex-wrap gap-3 hover:border-blue-300 hoverPop">
-                    <img [src]="'/Yuu/Mouths/' + mouth + '.png'" [alt]="mouth"
-                        class="w-full h-full object-cover rounded-lg pixel-art"
-                        (click)="selectedMouth = '/Yuu/Mouths/' + mouth + '.png'; unlockPage(4)"/>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="p-4" *ngIf="selectedPageIndex == 4">
-            <h1 class="text-3xl font-bold">{{pages[selectedPageIndex]}}</h1>
-            <hr />
-
-            <h1 class="text-xl font-bold py-5">Transform</h1>
-
-            <div class="flex gap-2">
-                <div class="w-1/3">
-
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="hueRange">Horizontal Offset: {{ xOffset[4] }}</label>
-                        <input type="range" min="-5" max="5" [(ngModel)]="xOffset[4]" class="slider transform-slider w-full" id="headXPos" />
-                    </div>
-                </div>
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="satRange">Vertical Offset: {{ yOffset[4] }}</label> <br>
-                        <input type="range" min="-5" max="5" [(ngModel)]="yOffset[4]" class="slider transform-slider w-full" id="headYPos" />
-                    </div>
-                </div> 
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="brightRange">Scale: {{ xScale[4]/10 }}</label> <br>
-                        <input type="range" min="-5" max="10" [(ngModel)]="xScale[4]" (input)="yScale[4] = xScale[4]" class="slider transform-slider w-full" id="headYPos" />
-                    </div>
-                </div>
-            </div>
-
-
-            <h1 class="text-xl font-bold py-4">Selected Nose</h1>
-
-            <div class="w-full bg-gray-200 rounded-xl flex flex-wrap gap-3">
-
-                <div *ngFor="let nose of noseOptions"
-                    class="aspect-square bg-blue-100 w-1/10 overflow-hidden rounded-lg border-1 shadow-md flex flex-wrap gap-3 hover:border-blue-300 hoverPop">
-                    <img [src]="'/Yuu/Noses/' + nose + '.png'" [alt]="nose"
-                        class="w-full h-full object-cover rounded-lg pixel-art"
-                        (click)="selectedNose = '/Yuu/Noses/' + nose + '.png'; unlockPage(5)"/>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="p-4" *ngIf="selectedPageIndex == 5">
-            <h1 class="text-3xl font-bold">{{pages[selectedPageIndex]}}</h1>
-            <hr />
-
-            <h1 class="text-xl font-bold py-5">Hair Color</h1>
-
-            <div class="flex gap-2">
-                <div class="w-1/3">
-
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="hueRange">Hue: {{ hue[1] }}</label>
-                        <input type="range" min="0" max="360" [(ngModel)]="hue[5]" class="slider hue-slider w-full"
-                            id="headHue" />
-                    </div>
-                </div>
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="satRange">Saturation: {{ saturation[1] }}</label> <br>
-                        <input type="range" min="0" max="100" [(ngModel)]="saturation[5]" class="slider saturation-slider w-full"
-                            id="headSat" />
-                    </div>
-                </div> 
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="brightRange">Brightness: {{ brightness[5] }}</label> <br>
-                        <input type="range" min="0" max="400" [(ngModel)]="brightness[5]" class="slider brightness-slider w-full "
-                            id="headBright" />
-                    </div>
-                </div>
-            </div>
-
-            <h1 class="text-xl font-bold py-5">Transform</h1>
-
-            <div class="flex gap-2">
-                <div class="w-1/3">
-
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="hueRange">Horizontal Offset: {{ xOffset[5] }}</label>
-                        <input type="range" min="-5" max="5" [(ngModel)]="xOffset[5]" class="slider transform-slider w-full" id="headXPos" />
-                    </div>
-                </div>
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="satRange">Vertical Offset: {{ yOffset[5] }}</label> <br>
-                        <input type="range" min="-5" max="5" [(ngModel)]="yOffset[5]" class="slider transform-slider w-full" id="headYPos" />
-                    </div>
-                </div> 
-                <div class="w-1/3">
-                    <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                        <label for="brightRange">Scale: {{ xScale[5]/10 }}</label> <br>
-                        <input type="range" min="-5" max="10" [(ngModel)]="xScale[5]" (input)="yScale[5] = xScale[5]" class="slider transform-slider w-full" id="headYPos" />
-                    </div>
-                </div>
-            </div>
-
-
-            <h1 class="text-xl font-bold py-4">Selected Hair</h1>
-
-            <div class="w-full bg-gray-200 rounded-xl flex flex-wrap gap-3">
-
-                <div *ngFor="let hair of hairOptions"
-                    class="aspect-square bg-blue-100 w-1/10 overflow-hidden rounded-lg border-1 shadow-md flex flex-wrap gap-3 hover:border-blue-300 hoverPop">
-                    <img [src]="'/Yuu/Hair/' + hair + '.png'" [alt]="hair"
-                        class="w-full h-full object-cover rounded-lg pixel-art"
-                        (click)="selectedHair = '/Yuu/Hair/' + hair + '.png'; unlockPage(6)"/>
-                </div>
-
-            </div>
-
-            <h1 class="text-xl font-bold py-4">Selected Back Hair</h1>
-
-            <div class="w-full bg-gray-200 rounded-xl flex flex-wrap gap-3">
-
-                <div *ngFor="let hair of backHairOptions"
-                    class="aspect-square bg-blue-100 w-1/10 overflow-hidden rounded-lg border-1 shadow-md flex flex-wrap gap-3 hover:border-blue-300 hoverPop">
-                    <img [src]="'/Yuu/BackHair/' + hair + '.png'" [alt]="hair"
-                        class="w-full h-full object-cover rounded-lg pixel-art"
-                        (click)="selectedBackHair = '/Yuu/BackHair/' + hair + '.png'"/>
-                </div>
-
-            </div>
-        </div>
-
-
-            <div class="p-4" *ngIf="selectedPageIndex == 6">
-
-                <h1 class="text-xl font-bold py-4">Selected Beard</h1>
-
-                <div class="w-full bg-gray-200 rounded-xl flex flex-wrap gap-3">
-
-                    <div *ngFor="let beard of beardOptions"
-                        class="aspect-square bg-blue-100 w-1/10 overflow-hidden rounded-lg border-1 shadow-md flex flex-wrap gap-3 hover:border-blue-300 hoverPop">
-                        <img [src]="'/Yuu/Beards/' + beard + '.png'" [alt]="beard"
-                            class="w-full h-full object-cover rounded-lg pixel-art"
-                            (click)="selectedBeard = '/Yuu/Beards/' + beard + '.png'; unlockPage(7)"/>
-                    </div>
-
-                </div>
-
-                <h1 class="text-xl font-bold py-5">Beard Transform</h1>
-
-                <div class="flex gap-2">
-                    <div class="w-1/3">
-
-                        <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                            <label for="hueRange">Horizontal Offset: {{ xOffset[6] }}</label>
-                            <input type="range" min="-5" max="5" [(ngModel)]="xOffset[6]" class="slider transform-slider w-full" id="headXPos" />
+                        <div class="p-2">
+                            <p class="font-bold text-xl">{{contact.name}}</p>
                         </div>
-                    </div>
-                    <div class="w-1/3">
-                        <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                            <label for="satRange">Vertical Offset: {{ yOffset[6] }}</label> <br>
-                            <input type="range" min="-5" max="5" [(ngModel)]="yOffset[6]" class="slider transform-slider w-full" id="headYPos" />
-                        </div>
-                    </div> 
-                    <div class="w-1/3">
-                        <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                            <label for="brightRange">Scale: {{ xScale[6]/10 }}</label> <br>
-                            <input type="range" min="-5" max="10" [(ngModel)]="xScale[6]" (input)="yScale[6] = xScale[6]" class="slider transform-slider w-full" id="headYPos" />
-                        </div>
+
                     </div>
                 </div>
-            </div>
-
-
-            <div class="p-4" *ngIf="selectedPageIndex == 7">
-
-                <h1 class="text-xl font-bold py-4">Selected Glasses</h1>
-
-                <div class="w-full bg-gray-200 rounded-xl flex flex-wrap gap-3">
-
-                    <div *ngFor="let glasses of glassesOptions"
-                        class="aspect-square bg-blue-100 w-1/10 overflow-hidden rounded-lg border-1 shadow-md flex flex-wrap gap-3 hover:border-blue-300 hoverPop">
-                        <img [src]="'/Yuu/Glasses/' + glasses + '.png'" [alt]="glasses"
-                            class="w-full h-full object-cover rounded-lg pixel-art"
-                            (click)="selectedGlasses = '/Yuu/Glasses/' + glasses + '.png'; unlockPage(8)"/>
-                    </div>
-
+                <div routerLink="/ContactCreator"
+                    class="w-full border-gray-200 rounded-lg shadow-md hover:bg-gray-100 flex flex-row h-1/8 items-center justify-center cursor-pointer bg-green-100 hover:bg-green-200 transition duration-300 ease-in-out">
+                    <a class="font-semibold text-lg text-green-800">+ Add New Contact</a>
                 </div>
-
-                <h1 class="text-xl font-bold py-5">Glasses Transform</h1>
-
-                <div class="flex gap-2">
-                    <div class="w-1/3">
-
-                        <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                            <label for="hueRange">Horizontal Offset: {{ xOffset[7] }}</label>
-                            <input type="range" min="-8" max="8" [(ngModel)]="xOffset[7]" class="slider transform-slider w-full" id="headXPos" />
-                        </div>
-                    </div>
-                    <div class="w-1/3">
-                        <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                            <label for="satRange">Vertical Offset: {{ yOffset[7] }}</label> <br>
-                            <input type="range" min="-8" max="8" [(ngModel)]="yOffset[7]" class="slider transform-slider w-full" id="headYPos" />
-                        </div>
-                    </div> 
-                    <div class="w-1/3">
-                        <div class="w-full bg-gray-200 rounded-xl gap-3 p-1">
-                            <label for="brightRange">Scale: {{ xScale[7]/10 }}</label> <br>
-                            <input type="range" min="-5" max="10" [(ngModel)]="xScale[7]" (input)="yScale[7] = xScale[7]" class="slider transform-slider w-full" id="headYPos" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-4" *ngIf="selectedPageIndex == 8"> 
-
-                <h1 class="text-5xl">Do you want to save this Yuu?</h1>
-                <hr/>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5 font-bold"
-                
-                    (click)="saveYuu()">Save Yuu</button>
-
             </div>
         </div>
-        
+        <div class="w-3/4 h-screen p-2 overflow-y-auto">
+            <div class="">
+                <p class="font-bold text-4xl p-3"> {{selectedContact.name}} </p>
+                <hr>
+            </div>
+
+            <div class="w-full flex flex-row gap-5">
+                <div class="aspect-square bg-blue-100 w-1/3 overflow-hidden rounded-lg border-1">
+                    <div class="w-full h-full object-contain relative aspect-square">
+
+                        <img *ngIf="selectedContact.yuu.selectedBackHair != ''" [src]="selectedContact.yuu.selectedBackHair"
+                            alt="Yuu Hair" class="object-cover rounded-lg pixel-art absolute w-full"
+                            [style.filter]="'hue-rotate(' + selectedContact.yuu.hue[5] + 'deg) brightness(' + (selectedContact.yuu.brightness[5]-1) + '%) saturate(' + selectedContact.yuu.saturation[5] + '%)'"
+                            [style.top]="(selectedContact.yuu.yOffset[1]+selectedContact.yuu.yOffset[5]) + '%'"
+                            [style.left]="selectedContact.yuu.xOffset[1]+selectedContact.yuu.xOffset[5] + '%'"
+                            [style.transform]="'scale(' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.xScale[5]/10) + ', ' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.yScale[5]/10) + ')'" />
+
+                        <img [src]="'/Yuu/Body.png'" alt="Yuu Body" class="rounded-lg pixel-art absolute w-full"
+                            [style.filter]="'hue-rotate(' + selectedContact.yuu.hue[0] + 'deg) brightness(' + selectedContact.yuu.brightness[0] + '%) saturate(' + selectedContact.yuu.saturation[0] + '%)'" />
+
+                        <img *ngIf="selectedContact.yuu.selectedHead != ''" [src]="'/Yuu/Heads/Head1.png'"
+                            alt="Yuu Head" class="object-cover rounded-lg pixel-art absolute w-full"
+                            [style.filter]="'hue-rotate(' + selectedContact.yuu.hue[1] + 'deg) brightness(' + selectedContact.yuu.brightness[1] + '%) saturate(' + selectedContact.yuu.saturation[1] + '%)'"
+                            [style.top]="selectedContact.yuu.yOffset[1] + '%'"
+                            [style.left]="selectedContact.yuu.xOffset[1] + '%'"
+                            [style.transform]="'scale(' + selectedContact.yuu.xScale[1]/10 + ', ' + selectedContact.yuu.yScale[1]/10 + ')'" />
+
+                        <img *ngIf="selectedContact.yuu.selectedEyes != ''" [src]="selectedContact.yuu.selectedEyes"
+                            alt="Yuu Eyes" class="object-cover rounded-lg pixel-art absolute w-full"
+                            [style.filter]="'hue-rotate(' + selectedContact.yuu.hue[2] + 'deg) brightness(' + selectedContact.yuu.brightness[2] + '%) saturate(' + selectedContact.yuu.saturation[2] + '%)'"
+                            [style.top]="(selectedContact.yuu.yOffset[1]+selectedContact.yuu.yOffset[2]) + '%'"
+                            [style.left]="selectedContact.yuu.xOffset[1]+selectedContact.yuu.xOffset[2] + '%'"
+                            [style.transform]="'scale(' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.xScale[2]/10) + ', ' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.yScale[2]/10) + ')'" />
+
+                        <img *ngIf="selectedContact.yuu.selectedMouth != ''" [src]="selectedContact.yuu.selectedMouth"
+                            alt="Yuu Mouth" class="object-cover rounded-lg pixel-art absolute w-full"
+                            [style.filter]="'hue-rotate(' + selectedContact.yuu.hue[3] + 'deg) brightness(' + selectedContact.yuu.brightness[3] + '%) saturate(' + selectedContact.yuu.saturation[3] + '%)'"
+                            [style.top]="(selectedContact.yuu.yOffset[1]+selectedContact.yuu.yOffset[3]) + '%'"
+                            [style.left]="selectedContact.yuu.xOffset[1]+selectedContact.yuu.xOffset[3] + '%'"
+                            [style.transform]="'scale(' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.xScale[3]/10) + ', ' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.yScale[3]/10) + ')'" />
+
+                        <img *ngIf="selectedContact.yuu.selectedNose != ''" [src]="selectedContact.yuu.selectedNose"
+                            alt="Yuu Nose" class="object-cover rounded-lg pixel-art absolute w-full"
+                            [style.filter]="'hue-rotate(' + selectedContact.yuu.hue[1] + 'deg) brightness(' + selectedContact.yuu.brightness[1] + '%) saturate(' + selectedContact.yuu.saturation[1] + '%)'"
+                            [style.top]="(selectedContact.yuu.yOffset[1]+selectedContact.yuu.yOffset[4]) + '%'"
+                            [style.left]="selectedContact.yuu.xOffset[1]+selectedContact.yuu.xOffset[4] + '%'"
+                            [style.transform]="'scale(' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.xScale[4]/10) + ', ' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.yScale[4]/10) + ')'" />
+
+                        <img *ngIf="selectedContact.yuu.selectedBeard != ''" [src]="selectedContact.yuu.selectedBeard"
+                            alt="Yuu Beard" class="object-cover rounded-lg pixel-art absolute w-full"
+                            [style.filter]="'hue-rotate(' + selectedContact.yuu.hue[5] + 'deg) brightness(' + selectedContact.yuu.brightness[5] + '%) saturate(' + selectedContact.yuu.saturation[5] + '%)'"
+                            [style.top]="(selectedContact.yuu.yOffset[1]+selectedContact.yuu.yOffset[6]) + '%'"
+                            [style.left]="selectedContact.yuu.xOffset[1]+selectedContact.yuu.xOffset[6] + '%'"
+                            [style.transform]="'scale(' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.xScale[6]/10) + ', ' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.yScale[6]/10) + ')'" />
+
+                        <img *ngIf="selectedContact.yuu.selectedHair != ''" [src]="selectedContact.yuu.selectedHair"
+                            alt="Yuu Hair" class="object-cover rounded-lg pixel-art absolute w-full"
+                            [style.filter]="'hue-rotate(' + selectedContact.yuu.hue[5] + 'deg) brightness(' + selectedContact.yuu.brightness[5] + '%) saturate(' + selectedContact.yuu.saturation[5] + '%)'"
+                            [style.top]="(selectedContact.yuu.yOffset[1]+selectedContact.yuu.yOffset[5]) + '%'"
+                            [style.left]="selectedContact.yuu.xOffset[1]+selectedContact.yuu.xOffset[5] + '%'"
+                            [style.transform]="'scale(' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.xScale[5]/10) + ', ' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.yScale[5]/10) + ')'" />
+
+                        <img *ngIf="selectedContact.yuu.selectedGlasses != ''"
+                            [src]="selectedContact.yuu.selectedGlasses" alt="Yuu Glasses"
+                            class="object-cover rounded-lg pixel-art absolute w-full"
+                            [style.top]="(selectedContact.yuu.yOffset[1]+selectedContact.yuu.yOffset[7]) + '%'"
+                            [style.left]="selectedContact.yuu.xOffset[1]+selectedContact.yuu.xOffset[7] + '%'"
+                            [style.transform]="'scale(' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.xScale[7]/10) + ', ' + (selectedContact.yuu.yScale[1]/10 + selectedContact.yuu.yScale[7]/10) + ')'" />
+
+                    </div>
+                </div>
+                <div class="w-2/3 p-5">
+                    <p class="text-2xl"> <span class="font-bold"> Birthday: </span>{{selectedContact.birthday.toDateString()}}</p>
+
+                    <p class="text-2xl"> <span class="font-bold py-4"> Address: </span>{{selectedContact.address}}</p>
+
+                    
+
+
+
+
+
+                </div>
+            </div>
+
+            <p class="text-2xl"> <span class="font-bold"> Contact ID: </span>{{selectedContact.id}}</p>
+
+            <div class="mt-4">
+                <p class="text-lg font-semibold">Social Media:</p>
+                <div class="flex flex-row gap-3">
+                    <div class="flex items-center gap-2 w-1/3 border-1 border-gray-200 rounded-lg shadow-sm flex flex-row p-5" [ngClass]="darkMode ? 'bg-slate-900 text-white hover:bg-black' : 'bg-white text-black hover:bg-gray-100'"
+                    *ngFor="let social of selectedContact.socials; let i = index">
+
+                        <div class="flex w-full" *ngIf="social.link != ''">
+                            <p class="font-bold flex-grow"> {{social.platform}}: </p> 
+                            <a href="{{social.link}}" class="text-blue-500 text-right"> {{social.handle}} </a>
+                        </div>
+
+                        <div class="flex" *ngIf="social.link == ''">
+                            <p class="font-bold"> {{social.platform}}: </p> <p class="text-blue-500 text-right" >{{social.handle}}</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <!-- Contact Description -->
+                    <p class="text-lg font-semibold">Notes:</p>
+                    <textarea [(ngModel)]="selectedContact.notes" placeholder="Add a description for this contact..."
+                        class="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        rows="4">
+                    </textarea>
+                </div>
+
+
+                <div class="mt-6 flex justify-between">
+                    <!-- Edit Contact Button -->
+                    <button [routerLink]="'/contact-editor/' + selectedContact.id"
+                        class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition duration-300">
+                        Edit Contact
+                    </button>
+
+                    <!-- Delete Contact Button -->
+                    <button class="bg-red-400 text-white px-4 py-2 rounded-lg hover:bg-red-500 transition duration-300" (click)="DeleteContact(selectedContact.id)" >
+                        Delete Contact
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
     </div>

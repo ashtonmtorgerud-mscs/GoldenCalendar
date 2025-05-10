@@ -25,8 +25,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("GoldenCalendarConnectionString")));
 builder.Services.AddControllers();
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();  // This makes sure the database stays updated when the app starts
+}
 
 //Add compatibility
 app.UseCors("AllowFrontend");
@@ -63,9 +70,6 @@ app.MapGet("/weatherforecast", () =>
 app.MapControllers();
 Console.WriteLine("App is listening...");
 
-// app.MapGet("/", () => "Welcome to the Golden Calendar API!")
-//     .WithName("GetWelcomeMessage")
-//     .WithOpenApi();
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

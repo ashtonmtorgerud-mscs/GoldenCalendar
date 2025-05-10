@@ -125,5 +125,13 @@ export class CalendarComponent {
     }
   }
 
+  proofMonthTime(input: number): boolean {
+    let freshDate = new Date();
+    if (input == this.today.getDate() && this.today.getMonth() == freshDate.getMonth() && this.today.getFullYear() == freshDate.getFullYear()){
+      return true;
+    }
+    return false;
+  }
+
   
 }

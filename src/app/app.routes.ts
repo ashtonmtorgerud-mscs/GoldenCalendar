@@ -5,12 +5,18 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { HomeComponent } from './components/home/home.component';
 import { DayComponent } from './components/day/day.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
+import { GoalsComponent } from './components/goals/goals.component';
+import { ContactCreatorComponent } from './components/contact-creator/contact-creator.component';
 
 
 export const routes: Routes = [
     {
         path: '',
         component: HomeComponent,
+    },
+    {
+        path: 'goals',
+        component: GoalsComponent,
     },
     {
         path: 'glance',
@@ -24,9 +30,15 @@ export const routes: Routes = [
         path: 'contacts',
         component: ContactsComponent,
     },
+    {
+        path: 'ContactCreator',
+        component: ContactCreatorComponent,
+    },
+    { path: 'contact-editor/:id', component: ContactCreatorComponent },
     { path: 'day/:year/:month/:day', component: DayComponent, },
     { path: 'day/:month/:day', component: DayComponent, },
     { path: 'day/:day', component: DayComponent, },
+
     
 
 ];
