@@ -40,7 +40,68 @@ export class ContactService {
     );
   }
 
+  getContactPage(page: number = 1, pageSize: number = 10, search: string = '', tag: string = ''): Observable<{ data: Contact[], totalItems: number, totalPages: number }> {
+    const params: any = {
+      page: page.toString(),
+      pageSize: pageSize.toString(),
+      search: search,
+      tag: tag
+    };
 
+    interface PagedResponse {
+      page: number;
+      pageSize: number;
+      totalItems: number;
+      totalPages: number;
+      data: any[];
+    }
+
+    interface ContactResponse {
+      id: number;
+      name: string;
+      notes: string;
+      phone: string;
+      email: string;
+      address: string;
+      tags: boolean[];
+      socials: { platform: string; handle: string; link: string }[];
+      birthday: string;
+      yuu: {
+      selectedHead: string;
+      selectedEyes: string;
+      selectedMouth: string;
+      selectedHair: string;
+      selectedBackHair: string;
+      selectedBeard: string;
+      selectedNose: string;
+      selectedGlasses: string;
+      hue: number[];
+      brightness: number[];
+      saturation: number[];
+      xOffset: number[];
+      yOffset: number[];
+      xScale: number[];
+      yScale: number[];
+      };
+    }
+
+    return this.http.get<PagedResponse>('http://localhost:5254/api/Contact/paged', { params: params }).pipe(
+      map(response => ({
+      data: response.data.map((t: ContactResponse) => new Contact(
+        t.id, t.name, t.notes, t.phone, t.email, t.address, t.tags, t.socials.map(s => new Social(s.platform, s.handle, s.link)), 
+        new Date(t.birthday), 
+        new Yuu(
+        t.yuu.selectedHead, t.yuu.selectedEyes, t.yuu.selectedMouth, t.yuu.selectedHair, 
+        t.yuu.selectedBackHair, t.yuu.selectedBeard, t.yuu.selectedNose, t.yuu.selectedGlasses,
+        t.yuu.hue, t.yuu.brightness, t.yuu.saturation, t.yuu.xOffset, t.yuu.yOffset, 
+        t.yuu.xScale, t.yuu.yScale
+        )
+      )),
+      totalItems: response.totalItems,
+      totalPages: response.totalPages
+      }))
+    );
+  }
 
   addContact(contact: Contact): Observable<Contact> {
     return this.http.post<Contact>('http://localhost:5254/api/Contact/', contact)

@@ -41,7 +41,73 @@ namespace GoldenCalendarAPI.Controllers
         }
 
 
-        
+        [HttpGet("paged")]
+        public ActionResult<IEnumerable<Contact>> GetPagedContacts(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string? search = null,
+            [FromQuery] string? tag = null,
+            [FromQuery] string sort = "name",           // Default sort by name
+            [FromQuery] bool descending = false         // Default ascending
+        )
+        {
+            if (page <= 0 || pageSize <= 0)
+                return BadRequest("Page and pageSize must be greater than zero.");
+
+            var query = _context.Contacts.AsQueryable();
+
+            // 🔍 Search
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(c =>
+                    c.Name.Contains(search) ||
+                    c.Email.Contains(search) ||
+                    c.Phone.Contains(search) ||
+                    c.Notes.Contains(search)
+                );
+            }
+
+            // 🏷️ Tag filtering (checks if the tag exists in the contact's tags list)
+            if (!string.IsNullOrEmpty(tag))
+            {
+                query = query.Where(c =>
+                    (tag == "favorites" && c.Tags[0]) ||
+                    (tag == "family" && c.Tags[1]) ||
+                    (tag == "friends" && c.Tags[2]) ||
+                    (tag == "work" && c.Tags[3]) ||
+                    (tag == "academia" && c.Tags[4])
+                );
+            }
+
+            // 🔠 Sorting
+            query = sort.ToLower() switch
+            {
+                "email" => descending ? query.OrderByDescending(c => c.Email) : query.OrderBy(c => c.Email),
+                "birthday" => descending ? query.OrderByDescending(c => c.Birthday) : query.OrderBy(c => c.Birthday),
+                _ => descending ? query.OrderByDescending(c => c.Name) : query.OrderBy(c => c.Name)
+            };
+
+            // 📃 Pagination
+            var totalItems = query.Count();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var contacts = query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var result = new
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                Data = contacts
+            };
+
+            return Ok(result);
+        }
+
 
         [HttpPost]
         public ActionResult AddContact(Contact newContact)

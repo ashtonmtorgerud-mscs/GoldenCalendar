@@ -76,9 +76,23 @@ export class ContactsComponent {
 
 
   GetContacts() {
-    this.contactService.getContacts().subscribe({
-      next: (contacts) => {
-        this.contacts = contacts;
+    // this.contactService.getContacts().subscribe({
+    //   next: (contacts) => {
+    //     this.contacts = contacts;
+    //     if (this.contacts.length > 0) {
+    //       this.selectedContact = this.contacts[0];
+    //       this.selectedContactIndex = 0;
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error('Failed to load contacts', err);
+    //   }
+    // });
+
+    this.contactService.getContactPage().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.contacts = response.data;
         if (this.contacts.length > 0) {
           this.selectedContact = this.contacts[0];
           this.selectedContactIndex = 0;
@@ -86,6 +100,7 @@ export class ContactsComponent {
       },
       error: (err) => {
         console.error('Failed to load contacts', err);
+
       }
     });
   }

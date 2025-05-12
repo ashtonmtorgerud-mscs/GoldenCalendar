@@ -47,6 +47,7 @@ export class ContactCreatorComponent {
         this.contactEmail = contact.email;
         this.contactAddress = contact.address;
         this.contactBirthday = new Date(contact.birthday);
+        this.contactTags = contact.tags;
         this.contactSocials = contact.socials;
         this.selectedHead = contact.yuu.selectedHead;
         this.hue = contact.yuu.hue;
@@ -128,10 +129,9 @@ export class ContactCreatorComponent {
 
   addSocial(): void {
     if (this.contactSocials.length < 10){
-      
+      let newSocial = new Social('', '', '');
+      this.contactSocials.push(newSocial);
     }
-    let newSocial = new Social('', '', '');
-    this.contactSocials.push(newSocial);
   }
   removeSocial(index: number): void {
     if (index > -1) {
@@ -159,7 +159,7 @@ export class ContactCreatorComponent {
       phone,
       email,
       address,
-      [false, false, false, true, false],
+      this.contactTags,
       this.contactSocials,
       birthday,
       newYuu
@@ -195,7 +195,7 @@ export class ContactCreatorComponent {
       this.contactPhone,
       this.contactEmail,
       this.contactAddress,
-      [false, false, false, true, false],
+      this.contactTags,
       this.contactSocials,
       this.contactBirthday,
       newYuu
