@@ -1,11 +1,11 @@
 <!-- Desktop Display -->
-<div class="hidden sm:block">
+<div class="hidden sm:block h-full">
     <a routerLink="/calendar"
         class="button absolute outline-red-500 text-white p-3 hover:bg-red-700 hover:font-bold rounded-lg select-none z-99">Back</a>
 
     <div class="px-1/4 container" *ngIf='modalVisibility'>
         <div
-            class="fixed bg-white text-black left-1/5 w-3/5 skyBlueBar rounded-lg h-4/5 mt-5 z-99 rotate-z-1 border-3 border-blue-900 p-8">
+            class="fixed bg-white text-black left-1/5 w-3/5 skyBlueBar rounded-lg h-4/5 mt-12 z-99 rotate-z-2 border-3 border-blue-900 p-8">
 
 
 
@@ -36,8 +36,8 @@
                         <h1 class="text-2xl font-bold">Due Date</h1>
 
                         <div class="flex">
-                            <input type="date" [(ngModel)]="newTaskDate" class="w-full border-1 rounded-lg" (input)="this.enteredDate = true" />
-                            <input type="time" [(ngModel)]="newTaskTime" class="w-full border-1 rounded-lg" (input)="this.enteredTime = true" />
+                            <input type="date" [(ngModel)]="newTaskDate" class="w-full border-1 rounded-lg" (input)="this.enteredDate = true; ValidateTask()" />
+                            <input type="time" [(ngModel)]="newTaskTime" class="w-full border-1 rounded-lg" (input)="this.enteredTime = true; ValidateTask()" />
                         </div>
                         
                     </div>
@@ -68,7 +68,7 @@
 
 
 
-    <div class="select-none">
+    <div class="select-none h-4/5">
         <div class="container mx-auto mt-5 flex flex-row gap-7 origin-left rounded-lg h-full">
             <div class="bg-white text-black w-1/2 shadow-xl h-100% rounded-lg p-5" name="" id="">
                 <div class="" *ngIf="selectedTask != null && selectedTask.title != ''">
@@ -84,7 +84,7 @@
 
                 </div>
             </div>
-            <div class="bg-white text-black w-1/2 rotate-z-1 rounded-lg outline-7 outline-blue-300 darkBlueBar" name=""
+            <div class="bg-white text-black w-1/2 rotate-z-1 h-full rounded-lg outline-7 outline-blue-300 darkBlueBar" name=""
                 id="">
                 <div class="h-12 bg-blue-300 text-center">
                     <h1 class="text-4xl font-bold textOutliner">Today's Events</h1>
@@ -110,27 +110,101 @@
 
 <!-- Mobile Display -->
 <div class="block sm:hidden h-full">
-    <div class="bg-blue-300 w-full h-1/12  mb-3 orangebar select-none">
+
+
+<div class="px-1/4 container" *ngIf='modalVisibility'>
+        <div
+            class="fixed bg-white text-black left-1/5 w-3/5 skyBlueBar rounded-lg h-4/5 mt-12 z-99 rotate-z-2 border-3 border-blue-900 p-8">
+
+
+
+            <div *ngIf='deleteTaskModalPlate'>
+                <p>Are you sure you want to delete this task? This action cannot be undone!</p>
+                <p>{{selectedTask.title}}</p>
+                <button (click)="deleteTask(selectedTask)" (click)="closeModal()"
+                    class="text-white text-xl bg-red-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3">Delete
+                    Task</button>
+                <button
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3"
+                    (click)="closeModal()"> Keep Task </button>
+            </div>
+
+            <div *ngIf='createTaskModalPlate || editTaskModalPlate || copyTaskModalPlate' class="overflow-y-auto h-full">
+
+                <h1 class="text-2xl font-bold">Task Name</h1>
+                <input class="w-full border-1 rounded-lg " (input)="ValidateTask()" type="text" [(ngModel)]="newTaskName" />
+
+                <h1 class="text-2xl font-bold">Task Description</h1>
+                <textarea class="w-full border-1 rounded-lg max-h-96" (input)="ValidateTask()" [(ngModel)]="newTaskDesc"></textarea>
+
+                <hr>
+
+                <div class="flex flex-row gap-5 mt-5">
+                    <div class="w-1/2">
+                        
+                        <h1 class="text-2xl font-bold">Due Date</h1>
+
+                        <div class="flex flex-row">
+                            <input type="date" [(ngModel)]="newTaskDate" class="w-full border-1 rounded-lg" (input)="this.enteredDate = true; ValidateTask()" />
+                            <input type="time" [(ngModel)]="newTaskTime" class="w-full border-1 rounded-lg" (input)="this.enteredTime = true; ValidateTask()" />
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="flex flex-row">
+                <button
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3" [disabled]="!validTask" [ngClass]="{ 'bg-gray-500': !validTask }"
+                    (click)="closeModal()" (click)="AddNamedTask()"  *ngIf='copyTaskModalPlate'> Copy </button>
+                <button
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3" [disabled]="!validTask" [ngClass]="{ 'bg-gray-500': !validTask }"
+                    (click)="closeModal()" (click)="AddNamedTask()"  *ngIf='createTaskModalPlate'> Add </button>
+                <button
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3" [disabled]="!validTask" [ngClass]="{ 'bg-gray-500': !validTask }"
+                    (click)="closeModal()" (click)="updateTask()" *ngIf='editTaskModalPlate'> Update </button>
+                <button
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3"
+                    (click)="closeModal()"> Close </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-blue-300 w-full h-1/12  mb-3 darkBlueBar select-none">
         <h1 class="textOutliner text-4xl text-center font-bold "> {{monthShort[monthParam] + " " + dayParam +
             GetMonthEnder(dayParam) + " - " + yearParam}} </h1>
     </div>
 
-    <div class="h-full bg-red-500">
-        <div class="bg-white text-black w-full h-1/2 rounded-lg outline-7 outline-blue-300 darkBlueBar" name="" id="">
-            <div class="h-12 bg-blue-300 text-center">
-                <h1 class="text-4xl font-bold textOutliner">Today's Events</h1>
-            </div>
-    
-            <div class="w-100% p-5 text-2xl h-96">
-                <div *ngFor="let task of myTasks">
-                    <div class="" (click)="this.selectedTask = task;">
-    
-                        <p class="font-bold">{{ "•"+task.title}}</p>
-                        <p class="text-sm pb-5">{{task.description}}</p>
-                    </div>
+    <div class="h-full">
+        <div class="text-black w-full h-full rounded-lg outline-7 darkBlueBar p-3" name="" id="">
+
+            <div class="bg-white rounded-lg h-1/2">
+                <div class="bg-blue-300 text-center mb-4">
+                    <h1 class="text-4xl font-bold textOutliner">Today's Events</h1>
                 </div>
-                <button class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3"
-                    (click)="toggleModal('Create')"> Create Task </button>
+
+                <div class="w-full p-5 text-2xl h-1/3 mb-6">
+                    <div *ngFor="let task of myTasks">
+                        <div class="cursor-pointer mb-4" (click)="this.selectedTask = task;">
+                            <p class="font-bold">{{ "•"+task.title}}</p>
+                            <p class="text-sm pb-2">{{task.description}}</p>
+                        </div>
+                    </div>
+                    <button class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3"
+                        (click)="toggleModal('Create')"> Create Task </button>
+                </div>
+            </div>
+
+            <div class="bg-white text-black h-1/3 w-full shadow-xl rounded-lg p-5 mt-8" *ngIf="selectedTask != null && selectedTask.title != ''">
+                <p class="font-bold text-2xl">{{selectedTask.title}}</p>
+                <p>{{selectedTask.description}}</p>
+                <p>Due By: {{selectedTask.dueDate.toDateString()}}</p>
+                <button *ngIf="selectedTask.title != ''" (click)="toggleModal('Edit')"
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3">Edit</button>
+                <button *ngIf="selectedTask.title != ''" (click)="toggleModal('Delete')"
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3">Delete</button>
+                <button *ngIf="selectedTask.title != ''" (click)="toggleModal('Duplicate')"
+                    class="text-white text-xl bg-blue-500 rounded-full font-bold hover:bg-blue-800 p-4 float-right m-3">Duplicate</button>
             </div>
         </div>
     </div>

@@ -1,83 +1,20 @@
-<div class="goals-container p-6 bg-gray-100 min-h-screen">
-    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Goals</h1>
-
-    <!-- Add New Goal -->
-    <div class="add-goal flex items-center justify-center mb-8">
+<div class="settings-container max-w-md mx-auto mt-10 bg-white rounded-lg shadow-lg p-8">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Settings</h2>
+    <form (submit)="saveConnectionString(connectionStringInput.value); $event.preventDefault();">
+        <label for="connectionString" class="block text-gray-700 font-medium mb-2">Connection String:</label>
         <input
+            id="connectionString"
             type="text"
-            placeholder="New Goal Title"
-            #newGoalInput
-            class="border border-gray-300 rounded-lg px-4 py-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            #connectionStringInput
+            [value]="getConnectionString()"
+            placeholder="Enter connection string"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
         />
         <button
-            (click)="addGoal(newGoalInput.value); newGoalInput.value = ''"
-            class="ml-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+            type="submit"
+            class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition-colors"
         >
-            Add Goal
+            Save
         </button>
-    </div>
-
-    <!-- List of Goals -->
-    <div *ngFor="let goal of goals; let i = index" class="goal bg-white shadow-md rounded-lg p-6 mb-6">
-        <h2 class="text-2xl font-semibold text-gray-800 flex justify-between items-center">
-            {{ goal.title }}
-            <button
-                (click)="removeGoal(i)"
-                class="text-red-500 hover:text-red-600 transition"
-            >
-                Remove Goal
-            </button>
-        </h2>
-
-        <!-- Add Task to Goal -->
-        <div class="add-task flex items-center mt-4">
-            <input
-                type="text"
-                placeholder="New Task Name"
-                #newTaskInput
-                class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-                (click)="addTask(i, newTaskInput.value); newTaskInput.value = ''"
-                class="ml-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
-            >
-                Add Task
-            </button>
-        </div>
-
-        <!-- List of Tasks -->
-        <ul class="mt-4 space-y-2">
-            <li
-                *ngFor="let task of goal.tasks; let j = index"
-                class="flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm"
-            >
-                <div class="flex items-center">
-                    <input
-                        type="checkbox"
-                        [checked]="task.completed"
-                        (change)="toggleTaskCompletion(i, j)"
-                        class="mr-4 h-5 w-5 text-blue-500 focus:ring-blue-500"
-                    />
-                    <span
-                        [class.line-through]="task.completed"
-                        class="text-gray-800"
-                    >
-                        {{ task.name }}
-                    </span>
-                </div>
-                <button
-                    (click)="removeTask(i, j)"
-                    class="text-red-500 hover:text-red-600 transition"
-                >
-                    Remove Task
-                </button>
-            </li>
-        </ul>
-    </div>
+    </form>
 </div>
-
-<style>
-    .line-through {
-        text-decoration: line-through;
-    }
-</style>

@@ -82,10 +82,11 @@ export class ContactService {
       yOffset: number[];
       xScale: number[];
       yScale: number[];
-      };
+      }
     }
 
-    return this.http.get<PagedResponse>('http://localhost:5254/api/Contact/paged', { params: params }).pipe(
+    let connectionString = 'http://localhost:5254/api';
+    return this.http.get<PagedResponse>(`${connectionString}/Contact/paged`, { params: params }).pipe(
       map(response => ({
       data: response.data.map((t: ContactResponse) => new Contact(
         t.id, t.name, t.notes, t.phone, t.email, t.address, t.tags, t.socials.map(s => new Social(s.platform, s.handle, s.link)), 

@@ -25,6 +25,9 @@ export class ContactsComponent {
   selectedPageIndex: number = 0;
   maxPage: number = 1;
 
+  filterOptions: string[] = ['None', 'Name', 'Email', 'Birthday', ];
+  selectedFilter: string = 'Filter by...';
+  searchQuery: string = '';
 
   darkMode: boolean = false;
 
